@@ -28,3 +28,6 @@
 
 !/game_rules.txt
 !/export_book.py
+!/baselines/
+!/summarize_results.py
+!/notes/
