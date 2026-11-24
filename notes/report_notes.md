@@ -85,10 +85,21 @@ Agent: alpha-beta from commit cc417fd, empty book.
 |---|---|---|---|---|---|---|---|
 | random_agent | 10 | 10/0/0 | 5/0/0 | 5/0/0 | 11.7 | 1.60 s | 0 / 0 |
 | greedy_agent | 10 | 10/0/0 | 5/0/0 | 5/0/0 | 25.9 | 1.60 s | 0 / 0 |
-| ab_baseline (local) | 20 | TODO | TODO | TODO | TODO | TODO | TODO |
+| ab_baseline (local) | 20 | 4/16/0 | 2/8/0 | 2/8/0 | 86.5 | 1.61 s | 0 / 0 |
 
 Peak memory 37–38 MB (limit 500 MB). Every step used the full 1.60 s
-budget, leaving 0.4 s of the 2 s limit as margin.
+budget, leaving 0.4 s of the 2 s limit as margin. The ab_baseline run
+shared the CPU with the offline book collection.
+
+**Main finding: draws against alpha-beta.** Against the local baseline the
+agent never lost but drew 16 of 20 games, all at the 100-ply cap (4 wins
+ended by a line). By obstacle class: corner 0/8/0, edge 1/1/0, center
+3/7/0; by removed size: S 2/6/0, M 0/4/0, L 2/6/0 (small samples).
+Beating the course baseline is required for the 60% performance level, so
+converting draws into wins is the priority. Hypothesis, not yet checked:
+the evaluation (line degree + piece size) has no term for threats such as
+three own top pieces in an open line, so neither side forces progress.
+Next: replay drawn games to see where play stalls.
 
 Still to run: with book vs without book (same opponent and seeds); book
 hit rate per ply.

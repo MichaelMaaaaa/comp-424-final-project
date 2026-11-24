@@ -31,3 +31,5 @@
 !/baselines/
 !/summarize_results.py
 !/notes/
+
+__pycache__/
