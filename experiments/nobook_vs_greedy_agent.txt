@@ -1,0 +1,6 @@
+Rules: allow_moves=True  win_length=4  max_plies=100
+Pairs: 5 (10 games)   configs: seeds 549548..549552
+student_agent : W  10  D   0  L   0  -> 100.0 %   as P1: 5/5   as P2: 5/5
+greedy_agent  : W   0  D   0  L  10  ->   0.0 %   as P1: 0/5   as P2: 0/5
+step time  student_agent: max 1.60 s  mean 1.60 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0
+step time  greedy_agent : max 0.53 s  mean 0.22 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0

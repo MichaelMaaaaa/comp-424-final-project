@@ -1,0 +1,6 @@
+Rules: allow_moves=True  win_length=4  max_plies=100
+Pairs: 10 (20 games)   configs: seeds 428984..428993
+student_agent                  : W   3  D  17  L   0  ->  57.5 %   as P1: 1/10   as P2: 2/10
+baselines/ab_baseline_agent.py : W   0  D  17  L   3  ->  42.5 %   as P1: 0/10   as P2: 0/10
+step time  student_agent                 : max 1.60 s  mean 1.52 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0
+step time  baselines/ab_baseline_agent.py: max 1.50 s  mean 1.35 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0

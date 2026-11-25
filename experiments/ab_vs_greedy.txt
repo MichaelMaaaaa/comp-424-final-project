@@ -1,0 +1,6 @@
+Rules: allow_moves=True  win_length=4  max_plies=100
+Pairs: 3 (6 games)   configs: seeds 764715..764717
+baselines/ab_baseline_agent.py : W   6  D   0  L   0  -> 100.0 %   as P1: 3/3   as P2: 3/3
+greedy_agent                   : W   0  D   0  L   6  ->   0.0 %   as P1: 0/3   as P2: 0/3
+step time  baselines/ab_baseline_agent.py: max 1.50 s  mean 1.47 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0
+step time  greedy_agent                  : max 0.41 s  mean 0.24 s  soft-timeouts 0  illegal 0  exceptions 0  forfeits 0
