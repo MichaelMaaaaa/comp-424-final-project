@@ -46,8 +46,8 @@ It then decodes the written book and checks every entry from all 8
 orientations against agents/symmetry.py: same canonical key and transform,
 and the lookup returns the expected legal move.
 
-**Book size.** TODO: entries collected / analysed / accepted (with rejection
-reasons from screened_positions.json), embedded entries, file size.
+**Book size.** 48 self-play games gave 4550 unique canonical positions;
+the first 600 (plies 0-14) were analysed, 486 accepted and embedded.
 
 ## 2. Experiment setup (Quantitative analysis)
 
@@ -99,10 +99,33 @@ Beating the course baseline is required for the 60% performance level, so
 converting draws into wins is the priority. Hypothesis, not yet checked:
 the evaluation (line degree + piece size) has no term for threats such as
 three own top pieces in an open line, so neither side forces progress.
-Next: replay drawn games to see where play stalls.
 
-Still to run: with book vs without book (same opponent and seeds); book
-hit rate per ply.
+**Why the draws happen (replay of the 16 drawn games).** Both players use
+up their reserves by ply 19-34 (two games: ply 97). From then on every move
+is a board move (672 each, against 128 placements each), and the players
+oscillate: one position recurs 11-19 times per game, typically a large
+piece moved back and forth between two squares by each side. The rules have
+no repetition draw, so these games run to the 100-ply cap. Neither agent
+detects repetition, and with deterministic tie-breaking both keep choosing
+the same moves. Candidate fixes: score a return to an earlier position of
+the same game as a draw (0) in search, so the side that is ahead avoids it;
+evaluation terms for three-in-a-line threats and uncoverable large pieces.
+
+### Book vs no book (controlled)
+
+Same opponent, same 10 seeds (428984-428993, both seats), --strict.
+
+| Agent | W/D/L | As P1 | As P2 | Mean plies | Book hits |
+|---|---|---|---|---|---|
+| no book (cc417fd) | 4/16/0 | 2/8/0 | 2/8/0 | 86.5 | - |
+| book, 486 entries (8bd710c) | 3/17/0 | 1/9/0 | 2/8/0 | 88.7 | 18 of 887 turns |
+
+Book hits by ply: ply 0: 10/10, ply 1: 4/10, ply 2: 2/10, ply 3: 2/10,
+ply 4 onward: 0. The difference of one win is within noise for 20 games.
+Measured conclusion: the book is used only in the first two moves per side
+and does not change results against this opponent; it does not address the
+draws. Book build: 600 positions (plies 0-14) analysed at 10 s, 486
+accepted, 114 rejected (all "unstable_move"); submission 31.9 KB.
 
 ## 4. Limitations (Strengths and limitations)
 
