@@ -1,0 +1,800 @@
+{
+  "schema": "comp424-experiments-v1",
+  "sample_seed": 424,
+  "target": 54,
+  "count": 4,
+  "positions": [
+    {
+      "position_id": "21096d3801381d31",
+      "state": {
+        "allow_moves": true,
+        "board": [
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "obstacle": [
+          2,
+          2
+        ],
+        "player": 2,
+        "ply": 9,
+        "reserves": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            3,
+            1
+          ]
+        ],
+        "win_length": 4
+      },
+      "source_game": "S0_E1_N__r2c2_S__P1",
+      "source_variant": "S0_E1_N",
+      "split": "D0",
+      "config_id": "r2c2_S",
+      "removed_size": 0,
+      "obstacle_class": "interior",
+      "stage": "early",
+      "near_cap": false,
+      "source_move": {
+        "agent_time": 0.006081,
+        "dest": [
+          1,
+          1
+        ],
+        "detail": null,
+        "flags": [],
+        "player": 2,
+        "ply": 9,
+        "size": 1,
+        "src": null,
+        "wall_time": 0.006375
+      },
+      "actor_role": "opponent"
+    },
+    {
+      "position_id": "aa96c9caee9617ff",
+      "state": {
+        "allow_moves": true,
+        "board": [
+          [
+            1,
+            0,
+            2
+          ],
+          [
+            1,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "obstacle": [
+          2,
+          2
+        ],
+        "player": 2,
+        "ply": 5,
+        "reserves": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            1
+          ]
+        ],
+        "win_length": 4
+      },
+      "source_game": "S0_E1_N__r2c2_S__P2",
+      "source_variant": "S0_E1_N",
+      "split": "D0",
+      "config_id": "r2c2_S",
+      "removed_size": 0,
+      "obstacle_class": "interior",
+      "stage": "early",
+      "near_cap": false,
+      "source_move": {
+        "agent_time": 0.010896,
+        "dest": [
+          3,
+          0
+        ],
+        "detail": null,
+        "flags": [],
+        "player": 2,
+        "ply": 5,
+        "size": 2,
+        "src": null,
+        "wall_time": 0.01119
+      },
+      "actor_role": "candidate"
+    },
+    {
+      "position_id": "a09c2490f7a9c842",
+      "state": {
+        "allow_moves": true,
+        "board": [
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "obstacle": [
+          2,
+          2
+        ],
+        "player": 1,
+        "ply": 12,
+        "reserves": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ]
+        ],
+        "win_length": 4
+      },
+      "source_game": "S0_E1_N__r2c2_S__P1",
+      "source_variant": "S0_E1_N",
+      "split": "D0",
+      "config_id": "r2c2_S",
+      "removed_size": 0,
+      "obstacle_class": "interior",
+      "stage": "middle",
+      "near_cap": false,
+      "source_move": {
+        "agent_time": 0.010888,
+        "dest": [
+          2,
+          1
+        ],
+        "detail": null,
+        "flags": [],
+        "player": 1,
+        "ply": 12,
+        "size": 0,
+        "src": null,
+        "wall_time": 0.011275
+      },
+      "actor_role": "candidate"
+    },
+    {
+      "position_id": "43734d77d343b874",
+      "state": {
+        "allow_moves": true,
+        "board": [
+          [
+            1,
+            0,
+            2
+          ],
+          [
+            1,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            2,
+            1
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "obstacle": [
+          2,
+          2
+        ],
+        "player": 1,
+        "ply": 10,
+        "reserves": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            0
+          ],
+          [
+            2,
+            1,
+            0
+          ]
+        ],
+        "win_length": 4
+      },
+      "source_game": "S0_E1_N__r2c2_S__P2",
+      "source_variant": "S0_E1_N",
+      "split": "D0",
+      "config_id": "r2c2_S",
+      "removed_size": 0,
+      "obstacle_class": "interior",
+      "stage": "middle",
+      "near_cap": false,
+      "source_move": {
+        "agent_time": 0.006084,
+        "dest": [
+          1,
+          2
+        ],
+        "detail": null,
+        "flags": [],
+        "player": 1,
+        "ply": 10,
+        "size": 2,
+        "src": [
+          0,
+          3
+        ],
+        "wall_time": 0.006409
+      },
+      "actor_role": "opponent"
+    }
+  ],
+  "coverage": [
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 0,
+      "stage": "early",
+      "target": 2,
+      "available_games": 2,
+      "selected": 2,
+      "missing": 0
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 0,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 2,
+      "selected": 2,
+      "missing": 0
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    }
+  ],
+  "positions_hash": "0671d795beaa79c6ff5dd446c7f08801d582e60d9f47d91bbb8d0f561046c07d",
+  "reference_request_hash": "d8b05c78546e99378e56b4d93022d7c0c5b29184bbd7fa7e1bf42b7bd68f83d4",
+  "reference_complete": true,
+  "execution_tier": "smoke"
+}

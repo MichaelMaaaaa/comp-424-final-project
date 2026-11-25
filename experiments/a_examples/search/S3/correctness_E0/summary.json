@@ -1,0 +1,86 @@
+{
+  "correct": true,
+  "incorrect_case_ids": [],
+  "incomplete_case_ids": [],
+  "verification_complete": true,
+  "common_completed_position_depths": [
+    [
+      "21096d3801381d31",
+      2
+    ],
+    [
+      "21096d3801381d31",
+      3
+    ]
+  ],
+  "common_by_workload": {
+    "cold": [
+      [
+        "21096d3801381d31",
+        2
+      ],
+      [
+        "21096d3801381d31",
+        3
+      ]
+    ],
+    "iterative": []
+  },
+  "aggregates": [
+    {
+      "variant_id": "S0",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.05000443999961135,
+      "min_s": 0.049825423000129376,
+      "max_s": 0.05023398899993481
+    },
+    {
+      "variant_id": "S0",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.11986251500002254,
+      "min_s": 0.118097988000045,
+      "max_s": 0.13402762299983806
+    },
+    {
+      "variant_id": "S1",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.047488167000210524,
+      "min_s": 0.04659094500038918,
+      "max_s": 0.05204037400017114
+    },
+    {
+      "variant_id": "S1",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.11756767199995011,
+      "min_s": 0.11507800099980159,
+      "max_s": 0.13427378500000486
+    },
+    {
+      "variant_id": "S3",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.04854481800020949,
+      "min_s": 0.047565574000145716,
+      "max_s": 0.05684940900027868
+    },
+    {
+      "variant_id": "S3",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.11783523299982335,
+      "min_s": 0.11733804100003908,
+      "max_s": 0.11899967099998321
+    }
+  ],
+  "note": "Cross-version timing comparisons must use complete common position-depths; diagnostic rows are separate."
+}

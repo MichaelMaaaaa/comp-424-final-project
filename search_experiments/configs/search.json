@@ -1,0 +1,16 @@
+{
+  "positions": "experiments/a_run/prepare/positions.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "reference_games": "experiments/a_run/prepare/reference/games.jsonl",
+  "components_summary": "experiments/a_run/components/components_summary.json",
+  "depths": [2, 3],
+  "guard_seconds": 60,
+  "online_budget": 1.6,
+  "run_confirmation": true,
+  "smoke": {
+    "max_positions": 1,
+    "depths": [2, 3],
+    "guard_seconds": 15,
+    "online_budget": 0.03
+  }
+}

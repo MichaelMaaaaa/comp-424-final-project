@@ -1,5 +1,8 @@
 # Goblet Gobblers — COMP 424 final project
 
+Search experiment modules (A, steps 0–2), configuration templates and handoff commands:
+[search_experiments/README.md](search_experiments/README.md).
+
 **Project description & template:** https://www.overleaf.com/project/6adc1036c0b369a348637ee4/share#f7b97c81b2af34dc012345849ea4608f6f9df6465bc80718
 
 ## Setup

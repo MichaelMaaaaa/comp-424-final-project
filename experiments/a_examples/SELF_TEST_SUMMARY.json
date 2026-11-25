@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "execution_tier": "smoke",
+  "machine": {
+    "python": "3.11.18",
+    "numpy": "1.26.4",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logical_cpus": 9,
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "source_student_agent_sha256": "2e9c9dc5a021f615620f8844fbeb3ebdb7b99ae037d9a7bacf3daf7ef3116fed",
+  "original_submission_unchanged": true,
+  "resume_does_not_duplicate": true,
+  "components_correct": true,
+  "optimizations_correct_E0_E1": true,
+  "official_validator": "PASS",
+  "formal_search_selected": false,
+  "note": "A's code handoff and small tests only; F runs the full formal 0-8 sequence."
+}

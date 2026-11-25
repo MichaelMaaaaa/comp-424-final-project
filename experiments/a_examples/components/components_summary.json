@@ -1,0 +1,191 @@
+{
+  "correct": true,
+  "incorrect_case_ids": [],
+  "incomplete_case_ids": [],
+  "verification_complete": true,
+  "common_completed_position_depths": [
+    [
+      "21096d3801381d31",
+      2
+    ],
+    [
+      "21096d3801381d31",
+      3
+    ]
+  ],
+  "common_by_workload": {
+    "cold": [
+      [
+        "21096d3801381d31",
+        2
+      ],
+      [
+        "21096d3801381d31",
+        3
+      ]
+    ],
+    "iterative": [
+      [
+        "21096d3801381d31",
+        2
+      ],
+      [
+        "21096d3801381d31",
+        3
+      ]
+    ]
+  },
+  "aggregates": [
+    {
+      "variant_id": "C0",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.06207509800015032,
+      "min_s": 0.0472696779997932,
+      "max_s": 0.0661917520001225
+    },
+    {
+      "variant_id": "C0",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 2.1504812729999685,
+      "min_s": 2.1285272000000077,
+      "max_s": 2.3441929929999787
+    },
+    {
+      "variant_id": "C1",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.00586259900001096,
+      "min_s": 0.004484271999899647,
+      "max_s": 0.010230951999801619
+    },
+    {
+      "variant_id": "C1",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.059832746000211046,
+      "min_s": 0.057317879000038374,
+      "max_s": 0.06234388500024579
+    },
+    {
+      "variant_id": "C1",
+      "workload": "iterative",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.006448484999964421,
+      "min_s": 0.006042561999947793,
+      "max_s": 0.008797929999673215
+    },
+    {
+      "variant_id": "C1",
+      "workload": "iterative",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.06833540299976448,
+      "min_s": 0.06043311300027199,
+      "max_s": 0.07555818999981057
+    },
+    {
+      "variant_id": "C2",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.057636030999674404,
+      "min_s": 0.05270348299973193,
+      "max_s": 0.06316048600001523
+    },
+    {
+      "variant_id": "C2",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.13689992699983122,
+      "min_s": 0.12913011499995264,
+      "max_s": 0.14856664399985675
+    },
+    {
+      "variant_id": "C2",
+      "workload": "iterative",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.05308201399975587,
+      "min_s": 0.049601360999986355,
+      "max_s": 0.0638099399998282
+    },
+    {
+      "variant_id": "C2",
+      "workload": "iterative",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.1783866159998979,
+      "min_s": 0.17433218199994371,
+      "max_s": 0.2060401210001146
+    },
+    {
+      "variant_id": "C3",
+      "workload": "cold",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.05463257499968677,
+      "min_s": 0.0527833789997203,
+      "max_s": 0.0697770959995978
+    },
+    {
+      "variant_id": "C3",
+      "workload": "cold",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.13387593100014783,
+      "min_s": 0.11514231900036975,
+      "max_s": 0.13962547100027223
+    },
+    {
+      "variant_id": "C3",
+      "workload": "iterative",
+      "depth": 2,
+      "count": 3,
+      "median_s": 0.056856481000068015,
+      "min_s": 0.05118309699992096,
+      "max_s": 0.06565563000003749
+    },
+    {
+      "variant_id": "C3",
+      "workload": "iterative",
+      "depth": 3,
+      "count": 3,
+      "median_s": 0.17882683099969654,
+      "min_s": 0.1692679880002288,
+      "max_s": 0.19506734300011885
+    }
+  ],
+  "note": "Cross-version timing comparisons must use complete common position-depths; diagnostic rows are separate.",
+  "execution_tier": "smoke",
+  "positions_hash": "0671d795beaa79c6ff5dd446c7f08801d582e60d9f47d91bbb8d0f561046c07d",
+  "positions_used": 1,
+  "code_hash": "8072a1cd5e0b3cef47c5952b3353bdc579c58314bf0bd41071c224e8a69892ae",
+  "machine": {
+    "python": "3.11.18",
+    "numpy": "1.26.4",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logical_cpus": 9,
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "exact_reference_incomplete": 0
+}

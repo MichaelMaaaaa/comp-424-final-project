@@ -1,0 +1,13 @@
+position_id,variant_id,workload,target_depth,effective_target_depth,repetition,measurement,elapsed,completed_depth,status,correct,target_reached,near_cap,budget_ok
+21096d3801381d31,S0,cold,2,2,0,timing,0.05022515300015584,2,completed,True,True,False,
+21096d3801381d31,S1,cold,2,2,0,timing,0.04664287100013098,2,completed,True,True,False,
+21096d3801381d31,S0,cold,3,3,0,timing,0.11590377400034413,3,completed,True,True,False,
+21096d3801381d31,S1,cold,3,3,0,timing,0.11402755700009948,3,completed,True,True,False,
+21096d3801381d31,S1,cold,2,2,1,timing,0.05040483299990228,2,completed,True,True,False,
+21096d3801381d31,S0,cold,2,2,1,timing,0.05253385099968,2,completed,True,True,False,
+21096d3801381d31,S1,cold,3,3,1,timing,0.11582333599972117,3,completed,True,True,False,
+21096d3801381d31,S0,cold,3,3,1,timing,0.11418711899978007,3,completed,True,True,False,
+21096d3801381d31,S1,cold,2,2,2,timing,0.04701509599999554,2,completed,True,True,False,
+21096d3801381d31,S0,cold,2,2,2,timing,0.05027605799978119,2,completed,True,True,False,
+21096d3801381d31,S1,cold,3,3,2,timing,0.11665372500010562,3,completed,True,True,False,
+21096d3801381d31,S0,cold,3,3,2,timing,0.11315381199983676,3,completed,True,True,False,

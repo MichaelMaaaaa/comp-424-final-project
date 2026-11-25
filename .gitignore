@@ -3,6 +3,7 @@
 
 /*
 !/.gitignore
+!/.gitattributes
 !/README.md
 !/requirements.txt
 !/authors.yaml
@@ -32,5 +33,15 @@
 !/summarize_results.py
 !/notes/
 !/experiments/
+!/search_experiments/
+!/tests/
+!/agents/search_engine.py
+!/agents/experiment_agent.py
+
+# Generated formal runs stay local; the committed examples are small self-tests.
+/experiments/a_run/
+/experiments/a_smoke/
+/search_experiments/__pycache__/
+/tests/__pycache__/
 
 __pycache__/

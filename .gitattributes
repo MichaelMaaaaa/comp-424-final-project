@@ -1,0 +1,2 @@
+# Python's csv writer uses RFC-style CRLF line endings.
+*.csv whitespace=trailing-space,space-before-tab,cr-at-eol

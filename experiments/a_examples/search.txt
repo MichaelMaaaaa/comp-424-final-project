@@ -1,0 +1,1 @@
+status: smoke_only S_diag: S1 S_star: None

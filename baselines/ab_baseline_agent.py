@@ -21,7 +21,7 @@ Usage:
 import time
 
 from agents.agent import Agent
-from constants import BOARD_SIZE
+from constants import BOARD_SIZE, OBSTACLE
 from helpers import LINES, check_endgame, copy_state, execute_move, get_valid_moves, top_view
 from store import register_agent
 
@@ -43,6 +43,8 @@ def evaluate(board, player):
     opponent = 3 - player
     score = 0
     for line in LINES[4]:
+        if any(own[r][c] == OBSTACLE for r, c in line):
+            continue
         mine = theirs = 0
         for r, c in line:
             if own[r][c] == player:
@@ -116,4 +118,6 @@ class AlphaBetaBaseline(Agent):
                 beta = min(beta, value)
             if alpha >= beta:
                 break
+        if time.perf_counter() >= self.deadline:
+            raise _Timeout
         return best_value, best_move

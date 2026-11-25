@@ -1,0 +1,11 @@
+{
+  "manifest_seed": 20261125,
+  "sample_seed": 424,
+  "run_reference": true,
+  "smoke": {
+    "max_configs": 1,
+    "step_budget": 0.012,
+    "opponent_budget": 0.006,
+    "max_depth": 2
+  }
+}

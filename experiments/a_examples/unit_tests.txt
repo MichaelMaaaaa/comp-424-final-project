@@ -1,0 +1,42 @@
+test_config_and_key_validation (tests.test_search_experiments.HarnessTests.test_config_and_key_validation) ... ok
+test_development_runner_rejects_T_before_playing (tests.test_search_experiments.HarnessTests.test_development_runner_rejects_T_before_playing) ... ok
+test_manifest_is_complete_disjoint_stratified_and_reproducible (tests.test_search_experiments.HarnessTests.test_manifest_is_complete_disjoint_stratified_and_reproducible) ... ok
+test_no_ranking_for_incomplete_games_and_forfeits_count_as_loss (tests.test_search_experiments.HarnessTests.test_no_ranking_for_incomplete_games_and_forfeits_count_as_loss) ... ok
+test_pair_difference_clusters_both_seats (tests.test_search_experiments.HarnessTests.test_pair_difference_clusters_both_seats) ... ok
+test_performance_order_must_be_consistent_three_times (tests.test_search_experiments.HarnessTests.test_performance_order_must_be_consistent_three_times) ... ok
+test_sampling_records_missing_groups_without_padding (tests.test_search_experiments.HarnessTests.test_sampling_records_missing_groups_without_padding) ... ok
+test_state_serialization_round_trip_and_validation (tests.test_search_experiments.HarnessTests.test_state_serialization_round_trip_and_validation) ... ok
+test_truncated_log_tail_can_resume_without_losing_complete_rows (tests.test_search_experiments.HarnessTests.test_truncated_log_tail_can_resume_without_losing_complete_rows) ... ok
+test_unretained_change_does_not_leak_into_later_candidates (tests.test_search_experiments.HarnessTests.test_unretained_change_does_not_leak_into_later_candidates) ... ok
+test_variant_hash_normalization_is_idempotent (tests.test_search_experiments.HarnessTests.test_variant_hash_normalization_is_idempotent) ... ok
+test_book_direct_returns_and_call_counter_always_advances (tests.test_search_experiments.KeyAndHookTests.test_book_direct_returns_and_call_counter_always_advances) ... ok
+test_book_hint_is_passed_to_search_and_illegal_direct_ignored (tests.test_search_experiments.KeyAndHookTests.test_book_hint_is_passed_to_search_and_illegal_direct_ignored) ... ok
+test_builder_accepts_f_evaluation_factory_and_b_book_provider (tests.test_search_experiments.KeyAndHookTests.test_builder_accepts_f_evaluation_factory_and_b_book_provider) ... EXP_STEP {"variant_id":"integration","ply":0,"completed_depth":null,"status":"book","book_queried":true,"book_matched":true,"book_action":"direct","book_version":"fixture","book_metadata":{},"processing_before_report_s":0.0002719730000535492}
+ok
+test_compact_key_retains_hidden_reserves_player_ply_and_rules (tests.test_search_experiments.KeyAndHookTests.test_compact_key_retains_hidden_reserves_player_ply_and_rules) ... ok
+test_evaluator_injection_and_unknown_parameters_fail (tests.test_search_experiments.KeyAndHookTests.test_evaluator_injection_and_unknown_parameters_fail) ... ok
+test_local_baseline_discards_entire_obstacle_line (tests.test_search_experiments.KeyAndHookTests.test_local_baseline_discards_entire_obstacle_line) ... ok
+test_original_submission_not_changed_by_builder (tests.test_search_experiments.KeyAndHookTests.test_original_submission_not_changed_by_builder) ... ok
+test_seeded_random_and_greedy_artifacts_embed_real_rng (tests.test_search_experiments.KeyAndHookTests.test_seeded_random_and_greedy_artifacts_embed_real_rng) ... ok
+test_stabilizer_sizes_and_obstacle_invariance (tests.test_search_experiments.KeyAndHookTests.test_stabilizer_sizes_and_obstacle_invariance) ... ok
+test_symmetry_tt_maps_action_back_to_query_coordinates (tests.test_search_experiments.KeyAndHookTests.test_symmetry_tt_maps_action_back_to_query_coordinates) ... ok
+test_c0_c3_and_original_agree_at_fixed_depth (tests.test_search_experiments.SearchCorrectnessTests.test_c0_c3_and_original_agree_at_fixed_depth) ... ok
+test_complete_root_ties_use_full_child_windows (tests.test_search_experiments.SearchCorrectnessTests.test_complete_root_ties_use_full_child_windows) ... ok
+test_depth_three_exact_reference_at_ply_99 (tests.test_search_experiments.SearchCorrectnessTests.test_depth_three_exact_reference_at_ply_99) ... ok
+test_different_depth_entry_is_only_a_hint (tests.test_search_experiments.SearchCorrectnessTests.test_different_depth_entry_is_only_a_hint) ... ok
+test_expired_deadline_has_legal_fallback (tests.test_search_experiments.SearchCorrectnessTests.test_expired_deadline_has_legal_fallback) ... ok
+test_interrupted_root_is_not_cached_or_committed (tests.test_search_experiments.SearchCorrectnessTests.test_interrupted_root_is_not_cached_or_committed) ... ok
+test_matching_bounds_cut_without_expansion (tests.test_search_experiments.SearchCorrectnessTests.test_matching_bounds_cut_without_expansion) ... ok
+test_noncutting_bounds_do_not_tighten_window (tests.test_search_experiments.SearchCorrectnessTests.test_noncutting_bounds_do_not_tighten_window) ... ok
+test_remaining_depth_cap_is_solved_and_stops (tests.test_search_experiments.SearchCorrectnessTests.test_remaining_depth_cap_is_solved_and_stops) ... ok
+test_s1_preferred_cutoff_avoids_other_successors (tests.test_search_experiments.SearchCorrectnessTests.test_s1_preferred_cutoff_avoids_other_successors) ... ok
+test_s1_s4_are_exact_for_e0_and_e1 (tests.test_search_experiments.SearchCorrectnessTests.test_s1_s4_are_exact_for_e0_and_e1) ... ok
+test_s2_reuses_terminal_and_leaf_results (tests.test_search_experiments.SearchCorrectnessTests.test_s2_reuses_terminal_and_leaf_results) ... ok
+test_timeout_retains_last_complete_iteration (tests.test_search_experiments.SearchCorrectnessTests.test_timeout_retains_last_complete_iteration) ... ok
+test_unsorted_search_disables_preferred_promotion (tests.test_search_experiments.SearchCorrectnessTests.test_unsorted_search_disables_preferred_promotion) ... ok
+test_zero_capacity_tt_and_separate_counters (tests.test_search_experiments.SearchCorrectnessTests.test_zero_capacity_tt_and_separate_counters) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 3.605s
+
+OK

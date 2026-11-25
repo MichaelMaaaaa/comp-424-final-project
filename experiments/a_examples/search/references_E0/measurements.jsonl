@@ -1,0 +1,2 @@
+{"case_id":"5c0bff50101be8ce1d529e8afe738a662c4f678a3a0496d47a18dab6952ef1f7","depth":2,"elapsed":0.047676672999841685,"evaluation":{"evaluation_id":"E0"},"optimal_moves":[{"dest":[1,0],"size":2,"src":null}],"position_id":"21096d3801381d31","status":"completed","value":-3000}
+{"case_id":"1eba0b6abde38c4c5e3960937b3ecd9b64be8e96b137250ce455c2ead1519861","depth":3,"elapsed":1.9610984490000192,"evaluation":{"evaluation_id":"E0"},"optimal_moves":[{"dest":[1,0],"size":2,"src":null}],"position_id":"21096d3801381d31","status":"completed","value":0}

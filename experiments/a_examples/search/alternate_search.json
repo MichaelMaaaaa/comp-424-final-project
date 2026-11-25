@@ -1,0 +1,22 @@
+{
+  "variant_id": "S0_E1_N",
+  "parent_variant": null,
+  "search": {
+    "alpha_beta": true,
+    "ordering": true,
+    "tt": true,
+    "preferred_first": false,
+    "reuse_results": false,
+    "key_mode": "tuple",
+    "symmetry": false,
+    "tt_capacity": 50000
+  },
+  "evaluation": {
+    "evaluation_id": "E1"
+  },
+  "book": {
+    "mode": "N"
+  },
+  "step_budget": 1.6,
+  "telemetry": true
+}

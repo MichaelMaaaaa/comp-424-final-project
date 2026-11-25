@@ -1,0 +1,57 @@
+{
+  "variant_id": "S1",
+  "parent_variant": "S0",
+  "changed": {
+    "preferred_first": true
+  },
+  "search": {
+    "alpha_beta": true,
+    "ordering": true,
+    "tt": true,
+    "preferred_first": true,
+    "reuse_results": false,
+    "key_mode": "tuple",
+    "symmetry": false,
+    "tt_capacity": 50000
+  },
+  "correct_E0_E1": true,
+  "retained": true,
+  "performance": {
+    "retain_candidate": true,
+    "budget_valid": true,
+    "consistent": true,
+    "repetitions": [
+      {
+        "repetition": 0,
+        "mean_depth": {
+          "S0": 1,
+          "S1": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 0.7395717382408982,
+        "winner": "S1",
+        "depth_position_count": 1
+      },
+      {
+        "repetition": 1,
+        "mean_depth": {
+          "S0": 1,
+          "S1": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 0.708946255965147,
+        "winner": "S1",
+        "depth_position_count": 1
+      },
+      {
+        "repetition": 2,
+        "mean_depth": {
+          "S0": 1,
+          "S1": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 0.7309984992667417,
+        "winner": "S1",
+        "depth_position_count": 1
+      }
+    ],
+    "reason": "candidate_stably_better"
+  }
+}

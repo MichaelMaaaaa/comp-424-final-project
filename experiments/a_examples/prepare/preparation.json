@@ -1,0 +1,234 @@
+{
+  "manifest_hash": "0d627e9fdbff10103c969e6219c09d0cd83c1c160d50e9507f97031e10c15278",
+  "reference_complete": true,
+  "positions_count": 4,
+  "target": 54,
+  "missing_strata": [
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "corner",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "edge",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 0,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 1,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "early",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "middle",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    },
+    {
+      "obstacle_class": "interior",
+      "removed_size": 2,
+      "stage": "late",
+      "target": 2,
+      "available_games": 0,
+      "selected": 0,
+      "missing": 2
+    }
+  ],
+  "execution_tier": "smoke"
+}

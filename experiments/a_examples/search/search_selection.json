@@ -1,0 +1,292 @@
+{
+  "execution_tier": "smoke",
+  "positions_hash": "0671d795beaa79c6ff5dd446c7f08801d582e60d9f47d91bbb8d0f561046c07d",
+  "S_diag": "S1",
+  "S_diag_config": {
+    "alpha_beta": true,
+    "ordering": true,
+    "tt": true,
+    "preferred_first": true,
+    "reuse_results": false,
+    "key_mode": "tuple",
+    "symmetry": false,
+    "tt_capacity": 50000
+  },
+  "S_star": null,
+  "S_alt": "S0",
+  "S_alt_config": {
+    "alpha_beta": true,
+    "ordering": true,
+    "tt": true,
+    "preferred_first": false,
+    "reuse_results": false,
+    "key_mode": "tuple",
+    "symmetry": false,
+    "tt_capacity": 50000
+  },
+  "decisions": [
+    {
+      "variant_id": "S1",
+      "parent_variant": "S0",
+      "changed": {
+        "preferred_first": true
+      },
+      "search": {
+        "alpha_beta": true,
+        "ordering": true,
+        "tt": true,
+        "preferred_first": true,
+        "reuse_results": false,
+        "key_mode": "tuple",
+        "symmetry": false,
+        "tt_capacity": 50000
+      },
+      "correct_E0_E1": true,
+      "retained": true,
+      "performance": {
+        "retain_candidate": true,
+        "budget_valid": true,
+        "consistent": true,
+        "repetitions": [
+          {
+            "repetition": 0,
+            "mean_depth": {
+              "S0": 1,
+              "S1": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.7395717382408982,
+            "winner": "S1",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 1,
+            "mean_depth": {
+              "S0": 1,
+              "S1": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.708946255965147,
+            "winner": "S1",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 2,
+            "mean_depth": {
+              "S0": 1,
+              "S1": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.7309984992667417,
+            "winner": "S1",
+            "depth_position_count": 1
+          }
+        ],
+        "reason": "candidate_stably_better"
+      }
+    },
+    {
+      "variant_id": "S2",
+      "parent_variant": "S1",
+      "changed": {
+        "reuse_results": true
+      },
+      "search": {
+        "alpha_beta": true,
+        "ordering": true,
+        "tt": true,
+        "preferred_first": true,
+        "reuse_results": true,
+        "key_mode": "tuple",
+        "symmetry": false,
+        "tt_capacity": 50000
+      },
+      "correct_E0_E1": true,
+      "retained": false,
+      "performance": {
+        "retain_candidate": false,
+        "budget_valid": true,
+        "consistent": false,
+        "repetitions": [
+          {
+            "repetition": 0,
+            "mean_depth": {
+              "S1": 1,
+              "S2": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.8667214002808654,
+            "winner": "S2",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 1,
+            "mean_depth": {
+              "S1": 1,
+              "S2": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.9104072493855275,
+            "winner": "S2",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 2,
+            "mean_depth": {
+              "S1": 1,
+              "S2": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 1.1236653901373326,
+            "winner": "S1",
+            "depth_position_count": 1
+          }
+        ],
+        "reason": "keep_parent"
+      }
+    },
+    {
+      "variant_id": "S3",
+      "parent_variant": "S1",
+      "changed": {
+        "key_mode": "compact"
+      },
+      "search": {
+        "alpha_beta": true,
+        "ordering": true,
+        "tt": true,
+        "preferred_first": true,
+        "reuse_results": false,
+        "key_mode": "compact",
+        "symmetry": false,
+        "tt_capacity": 50000
+      },
+      "correct_E0_E1": true,
+      "retained": false,
+      "performance": {
+        "retain_candidate": false,
+        "budget_valid": true,
+        "consistent": false,
+        "repetitions": [
+          {
+            "repetition": 0,
+            "mean_depth": {
+              "S1": 1,
+              "S3": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 1.0154325542339648,
+            "winner": "S1",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 1,
+            "mean_depth": {
+              "S1": 1,
+              "S3": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.9871471902131138,
+            "winner": "S3",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 2,
+            "mean_depth": {
+              "S1": 1,
+              "S3": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.8924335395914053,
+            "winner": "S3",
+            "depth_position_count": 1
+          }
+        ],
+        "reason": "keep_parent"
+      }
+    },
+    {
+      "variant_id": "S4",
+      "parent_variant": "S1",
+      "changed": {
+        "symmetry": true
+      },
+      "search": {
+        "alpha_beta": true,
+        "ordering": true,
+        "tt": true,
+        "preferred_first": true,
+        "reuse_results": false,
+        "key_mode": "tuple",
+        "symmetry": true,
+        "tt_capacity": 50000
+      },
+      "correct_E0_E1": true,
+      "retained": false,
+      "performance": {
+        "retain_candidate": false,
+        "budget_valid": true,
+        "consistent": false,
+        "repetitions": [
+          {
+            "repetition": 0,
+            "mean_depth": {
+              "S1": 1,
+              "S4": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 0.9585590984671685,
+            "winner": "S4",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 1,
+            "mean_depth": {
+              "S1": 1,
+              "S4": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 1.0316776108016397,
+            "winner": "S1",
+            "depth_position_count": 1
+          },
+          {
+            "repetition": 2,
+            "mean_depth": {
+              "S1": 1,
+              "S4": 1
+            },
+            "fixed_time_ratio_candidate_over_parent": 1.030646249419548,
+            "winner": "S1",
+            "depth_position_count": 1
+          }
+        ],
+        "reason": "keep_parent"
+      }
+    }
+  ],
+  "metrics_relative_to_S0": [
+    {
+      "variant_id": "S1",
+      "correct": true,
+      "budget_valid": true,
+      "mean_depth": 1,
+      "fixed_ratio_to_S0": 0.7309984992667417,
+      "common_depth_cases": 3
+    },
+    {
+      "variant_id": "S2",
+      "correct": true,
+      "budget_valid": true,
+      "mean_depth": 1,
+      "fixed_ratio_to_S0": 0.6341170374194725,
+      "common_depth_cases": 3
+    },
+    {
+      "variant_id": "S3",
+      "correct": true,
+      "budget_valid": true,
+      "mean_depth": 1,
+      "fixed_ratio_to_S0": 0.7448346299859274,
+      "common_depth_cases": 3
+    },
+    {
+      "variant_id": "S4",
+      "correct": true,
+      "budget_valid": true,
+      "mean_depth": 1,
+      "fixed_ratio_to_S0": 0.7498941284384927,
+      "common_depth_cases": 3
+    }
+  ],
+  "status": "smoke_only"
+}

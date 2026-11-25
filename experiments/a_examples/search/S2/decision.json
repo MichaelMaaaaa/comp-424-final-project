@@ -1,0 +1,57 @@
+{
+  "variant_id": "S2",
+  "parent_variant": "S1",
+  "changed": {
+    "reuse_results": true
+  },
+  "search": {
+    "alpha_beta": true,
+    "ordering": true,
+    "tt": true,
+    "preferred_first": true,
+    "reuse_results": true,
+    "key_mode": "tuple",
+    "symmetry": false,
+    "tt_capacity": 50000
+  },
+  "correct_E0_E1": true,
+  "retained": false,
+  "performance": {
+    "retain_candidate": false,
+    "budget_valid": true,
+    "consistent": false,
+    "repetitions": [
+      {
+        "repetition": 0,
+        "mean_depth": {
+          "S1": 1,
+          "S2": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 0.8667214002808654,
+        "winner": "S2",
+        "depth_position_count": 1
+      },
+      {
+        "repetition": 1,
+        "mean_depth": {
+          "S1": 1,
+          "S2": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 0.9104072493855275,
+        "winner": "S2",
+        "depth_position_count": 1
+      },
+      {
+        "repetition": 2,
+        "mean_depth": {
+          "S1": 1,
+          "S2": 1
+        },
+        "fixed_time_ratio_candidate_over_parent": 1.1236653901373326,
+        "winner": "S1",
+        "depth_position_count": 1
+      }
+    ],
+    "reason": "keep_parent"
+  }
+}

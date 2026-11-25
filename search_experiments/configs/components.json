@@ -1,0 +1,10 @@
+{
+  "positions": "experiments/a_run/prepare/positions.json",
+  "depths": [2, 3],
+  "guard_seconds": 60,
+  "smoke": {
+    "max_positions": 1,
+    "depths": [2, 3],
+    "guard_seconds": 15
+  }
+}
