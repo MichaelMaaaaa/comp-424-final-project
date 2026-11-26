@@ -1,0 +1,18 @@
+collected self__r2c2_S__0: completed, 21 turns, 0.4 s
+collected self__r2c2_S__1: completed, 15 turns, 0.3 s
+collected self__r2c2_S__2: completed, 17 turns, 0.3 s
+collected self__r2c2_S__3: completed, 13 turns, 0.3 s
+collected greedy__r2c2_S__0: completed, 76 turns, 6.8 s
+collected ab__r2c2_S__0: completed, 16 turns, 0.2 s
+analysed 15/15 new candidates (ply 30, depth 2)
+S0_E1_N__smoke_b0_k12_D__r0c2_S__P1 adjudicated W
+S0_E1_N__smoke_b0_k12_D__r0c2_S__P2 adjudicated W
+S0_E1_N__smoke_b1_k12_D__r0c2_S__P1 adjudicated W
+S0_E1_N__smoke_b1_k12_D__r0c2_S__P2 adjudicated W
+S0_E1_N__smoke_b2_k12_D__r0c2_S__P1 adjudicated W
+S0_E1_N__smoke_b2_k12_D__r0c2_S__P2 adjudicated W
+S0_E1_N__smoke_b0_k3_D__r0c2_S__P1 adjudicated W
+S0_E1_N__smoke_b0_k3_D__r0c2_S__P2 adjudicated W
+S0_E1_N__smoke_b0_k6_D__r0c2_S__P1 adjudicated W
+S0_E1_N__smoke_b0_k6_D__r0c2_S__P2 adjudicated W
+status: selected K: 12 source: B0 k*: 3

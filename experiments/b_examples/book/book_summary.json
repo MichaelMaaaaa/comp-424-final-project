@@ -1,0 +1,953 @@
+{
+  "schema": "comp424-experiments-v1",
+  "execution_tier": "smoke",
+  "formal_selection": false,
+  "online_variant_id": "S0_E1_N",
+  "online_config_hash": "52d27412009536ccdac18dd4e7e8620ff92daa90851e001599f1d06ba1cda5ac",
+  "code_hash": "17ef3f52c8d4a57c63b77f8408401814c4a63dde801b117c33f77ec7dd8a4f97",
+  "settings": {
+    "collection": {
+      "move_time": 0.02,
+      "opponent_budget": 0.006,
+      "max_depth": 2,
+      "b0_selfplay_per_config": 4,
+      "b1_selfplay_per_config": 2,
+      "b1_reuses_b0_selfplay": true
+    },
+    "candidates": {
+      "nc": 12
+    },
+    "analysis": {
+      "budget": 0.3,
+      "max_depth": 2
+    },
+    "screening": {
+      "min_depth": 1,
+      "stable_depths": 1
+    },
+    "export": {
+      "size_reference": 486,
+      "sizes": [
+        3,
+        6
+      ]
+    },
+    "representation": {
+      "repeats": 1
+    }
+  },
+  "opponent": {
+    "kind": "ab",
+    "budget": 0.006
+  },
+  "reference_games": "experiments/b_examples/d1_reference/games.jsonl",
+  "reference_check": {
+    "verified": true,
+    "reference_variant_id": "S0_E1_N"
+  },
+  "representation_current": {
+    "status": "measured",
+    "label": "current_ef31072c65b6",
+    "canonical_entries": 486,
+    "covered_queries": 3864,
+    "miss_queries": 486,
+    "repeats": 1,
+    "identical_moves": true,
+    "layouts": {
+      "d4_compact_zlib": {
+        "layout": "d4_compact_zlib",
+        "symmetry": "d4",
+        "key": "compact",
+        "compression": "zlib",
+        "entries": 486,
+        "data_bytes": 4700,
+        "module_bytes": 5709,
+        "decoded_bytes": 44436,
+        "init_ms": 0.361471000360325,
+        "key_us": 311.7853020660408,
+        "query_us": 323.19590321543956
+      },
+      "expanded_compact_zlib": {
+        "layout": "expanded_compact_zlib",
+        "symmetry": "expanded",
+        "key": "compact",
+        "compression": "zlib",
+        "entries": 3864,
+        "data_bytes": 32996,
+        "module_bytes": 36996,
+        "decoded_bytes": 353840,
+        "init_ms": 2.5899239990394562,
+        "key_us": 6.749344134606935,
+        "query_us": 10.744257008485581
+      },
+      "d4_tuple_zlib": {
+        "layout": "d4_tuple_zlib",
+        "symmetry": "d4",
+        "key": "tuple",
+        "compression": "zlib",
+        "entries": 486,
+        "data_bytes": 5376,
+        "module_bytes": 6455,
+        "decoded_bytes": 258276,
+        "init_ms": 0.7267569890245795,
+        "key_us": 303.69058229971205,
+        "query_us": 316.6259448284861
+      },
+      "d4_compact_none": {
+        "layout": "d4_compact_none",
+        "symmetry": "d4",
+        "key": "compact",
+        "compression": "none",
+        "entries": 486,
+        "data_bytes": 11016,
+        "module_bytes": 12689,
+        "decoded_bytes": 44436,
+        "init_ms": 0.2855949860531837,
+        "key_us": 309.63122574398403,
+        "query_us": 322.8060781605135
+      }
+    },
+    "comparisons": [
+      {
+        "property": "symmetry",
+        "baseline": "d4_compact_zlib",
+        "alternative": "expanded_compact_zlib",
+        "metrics": {
+          "entries": {
+            "baseline": 486,
+            "alternative": 3864
+          },
+          "data_bytes": {
+            "baseline": 4700,
+            "alternative": 32996
+          },
+          "module_bytes": {
+            "baseline": 5709,
+            "alternative": 36996
+          },
+          "query_us": {
+            "baseline": 323.19590321543956,
+            "alternative": 10.744257008485581
+          }
+        }
+      },
+      {
+        "property": "key",
+        "baseline": "d4_compact_zlib",
+        "alternative": "d4_tuple_zlib",
+        "metrics": {
+          "key_us": {
+            "baseline": 311.7853020660408,
+            "alternative": 303.69058229971205
+          },
+          "query_us": {
+            "baseline": 323.19590321543956,
+            "alternative": 316.6259448284861
+          },
+          "decoded_bytes": {
+            "baseline": 44436,
+            "alternative": 258276
+          }
+        }
+      },
+      {
+        "property": "compression",
+        "baseline": "d4_compact_zlib",
+        "alternative": "d4_compact_none",
+        "metrics": {
+          "init_ms": {
+            "baseline": 0.361471000360325,
+            "alternative": 0.2855949860531837
+          },
+          "data_bytes": {
+            "baseline": 4700,
+            "alternative": 11016
+          },
+          "module_bytes": {
+            "baseline": 5709,
+            "alternative": 12689
+          },
+          "decoded_bytes": {
+            "baseline": 44436,
+            "alternative": 44436
+          }
+        }
+      }
+    ]
+  },
+  "collection": {
+    "games": 6,
+    "complete": true,
+    "seconds_total": 8.290462282020599,
+    "seconds_collector": 2.245288455073023,
+    "seconds_opponent": 6.038577003986575,
+    "by_pool": {
+      "B0": 1.325594889029162,
+      "B1": 7.687996288004797
+    }
+  },
+  "candidates": {
+    "nc_requested": 12,
+    "nc": 12,
+    "pool_sizes": {
+      "B0": 64,
+      "B1": 129,
+      "B2": 129
+    },
+    "stage_distribution": {
+      "B0": {
+        "early": 12,
+        "middle": 0,
+        "late": 0
+      },
+      "B1": {
+        "early": 12,
+        "middle": 0,
+        "late": 0
+      },
+      "B2": {
+        "early": 10,
+        "middle": 1,
+        "late": 1
+      }
+    },
+    "pool_stage_distribution": {
+      "B0": {
+        "early": 38,
+        "middle": 26,
+        "late": 0
+      },
+      "B1": {
+        "early": 41,
+        "middle": 42,
+        "late": 46
+      }
+    }
+  },
+  "analysis": {
+    "analysis_id": "1038a53a26e2f3419797e34bc9ac1fdb446d54e1b06b9a5774f0314d2a0fe968",
+    "identity": {
+      "analyzer": "b-analysis-v1",
+      "search": {
+        "alpha_beta": true,
+        "key_mode": "tuple",
+        "ordering": true,
+        "preferred_first": false,
+        "reuse_results": false,
+        "symmetry": false,
+        "tt": true,
+        "tt_capacity": 50000
+      },
+      "evaluation": {
+        "evaluation_id": "E1"
+      },
+      "rules": {
+        "allow_moves": true,
+        "win_length": 4,
+        "max_plies": 100
+      },
+      "budget": 0.3,
+      "max_depth": 2,
+      "code": {
+        "agents/search_engine.py": "3f962072d5543efa9afccccc1912eb85d6402f92ecf636a3048e3ca4ad7c5e18",
+        "agents/evaluation.py": "3365ec4cf35d254a21fe209a0157b3592931d6c58ce748e59c7d4353dc6d2ccc",
+        "agents/game_state.py": "8a1a15bc31f0ff91b26b76a7cea496474373a693e7cf9c3bf9c3ec72d7eb536f",
+        "agents/symmetry.py": "0f0a7630d42643806a4e0309971bdc7cf03036d8b98f7d07fd25d14293fe5d10",
+        "agents/transposition_table.py": "bfbc3408fc147cf8e2889ce394e6f9a662bdf6d779c6aa8d2d58553e7fd98730",
+        "constants.py": "610e37c7585586c38d70c6419c27755b76aea615d57313a962652585600d9ded",
+        "helpers.py": "1d5787699c4e03dc54fc54494f07bb56280f79600e4d3c187d901ca49cd859ef",
+        "book_experiments/analysis.py": "a688c58d4a0d0cd42f312e5d3fa2c40950d36c8e8c99a6f0ad27c998b9fb03cf"
+      },
+      "analysis_id": "1038a53a26e2f3419797e34bc9ac1fdb446d54e1b06b9a5774f0314d2a0fe968"
+    },
+    "distinct_keys": 15,
+    "logical_budget_seconds": {
+      "B0": 3.5999999999999996,
+      "B1": 3.5999999999999996,
+      "B2": 3.5999999999999996
+    },
+    "actual_seconds_deduplicated": 1.1100539629696868,
+    "termination": {
+      "max_depth": 15
+    }
+  },
+  "screening": {
+    "version": "b-screen-v1",
+    "accepted": {
+      "B0": 12,
+      "B1": 12,
+      "B2": 12
+    },
+    "reasons": {
+      "B0": {
+        "stable_and_safe": 12
+      },
+      "B1": {
+        "stable_and_safe": 12
+      },
+      "B2": {
+        "stable_and_safe": 12
+      }
+    }
+  },
+  "K": 12,
+  "export": {
+    "B0": {
+      "candidates": 12,
+      "accepted": 12,
+      "exported": 12,
+      "initial_exported": 9,
+      "stage_distribution": {
+        "candidates": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        },
+        "accepted": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        },
+        "exported": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        }
+      },
+      "book_file": "experiments/b_examples/book/books/B0_k12.json",
+      "hash": "ca9379135b69ff5ed847bd5e8f5a3dd702af94f70d0f664dd82bdc0b979cd610",
+      "version": "07a1c01d67891a021694eb31d4ea5251bbdbbee30c6635692b86cf3440aa2484",
+      "provider": "agents.books.smoke_b0_k12",
+      "path": "agents/books/smoke_b0_k12.py",
+      "module_bytes": 652
+    },
+    "B1": {
+      "candidates": 12,
+      "accepted": 12,
+      "exported": 12,
+      "initial_exported": 9,
+      "stage_distribution": {
+        "candidates": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        },
+        "accepted": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        },
+        "exported": {
+          "early": 12,
+          "middle": 0,
+          "late": 0
+        }
+      },
+      "book_file": "experiments/b_examples/book/books/B1_k12.json",
+      "hash": "f5c4c588e9d6ac26f249282fae666755dfa4f8f17b1fac93ffdec4a8354db026",
+      "version": "211ea2ed88c66f867cc3341759cb571c4da2645ae76706d04c682cc81fced005",
+      "provider": "agents.books.smoke_b1_k12",
+      "path": "agents/books/smoke_b1_k12.py",
+      "module_bytes": 652
+    },
+    "B2": {
+      "candidates": 12,
+      "accepted": 12,
+      "exported": 12,
+      "initial_exported": 9,
+      "stage_distribution": {
+        "candidates": {
+          "early": 10,
+          "middle": 1,
+          "late": 1
+        },
+        "accepted": {
+          "early": 10,
+          "middle": 1,
+          "late": 1
+        },
+        "exported": {
+          "early": 10,
+          "middle": 1,
+          "late": 1
+        }
+      },
+      "book_file": "experiments/b_examples/book/books/B2_k12.json",
+      "hash": "a40606e1e17f1e81641c63b87c761b4118ca6393cf84c66567d937648c74a3b0",
+      "version": "7a6addb7ef95fdb741cba75eb2fd05b09f6be77c790d551e3e284a75aa95eb4c",
+      "provider": "agents.books.smoke_b2_k12",
+      "path": "agents/books/smoke_b2_k12.py",
+      "module_bytes": 664
+    }
+  },
+  "source_coverage": {
+    "B0": {
+      "queryable": 12,
+      "matched": 1,
+      "rate": 0.08333333333333333,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 1
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 1
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": [
+        "S0_E1_N__r0c2_S__P1@0"
+      ]
+    },
+    "B1": {
+      "queryable": 12,
+      "matched": 1,
+      "rate": 0.08333333333333333,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 1
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 1
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": [
+        "S0_E1_N__r0c2_S__P1@0"
+      ]
+    },
+    "B2": {
+      "queryable": 12,
+      "matched": 1,
+      "rate": 0.08333333333333333,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 1
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 1
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": [
+        "S0_E1_N__r0c2_S__P1@0"
+      ]
+    }
+  },
+  "source_games": {
+    "B0": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "8d67100b2cc9c011edf2ec9fe7fcbf92aa9c9977be59649eff63dc30000b5e92",
+      "metrics": {
+        "games": 2,
+        "queries": 13,
+        "matches": 1,
+        "hit_rate": 0.07692307692307693,
+        "games_with_hit": 1,
+        "games_with_hit_fraction": 0.5,
+        "direct_returns": 1,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10,
+            "matches": 1,
+            "direct": 1
+          },
+          "middle": {
+            "turns": 3,
+            "queries": 3
+          },
+          "late": {}
+        },
+        "searched_turns": 12,
+        "depth_not_applicable": 1,
+        "depth_zero": 1,
+        "mean_completed_depth": 0.9166666666666666,
+        "step_time_mean": 0.01029976923076923,
+        "step_time_max": 0.01112,
+        "init_time_max": 0.00011051399633288383,
+        "max_rss_mb": 48.0
+      }
+    },
+    "B1": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "6270cb1f98cd33cfce49d409ac8ac45f20f2b8731bfe29c1526af5f21af88d8e",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 1,
+        "hit_rate": 0.08333333333333333,
+        "games_with_hit": 1,
+        "games_with_hit_fraction": 0.5,
+        "direct_returns": 1,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10,
+            "matches": 1,
+            "direct": 1
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 11,
+        "depth_not_applicable": 1,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010143583333333333,
+        "step_time_max": 0.011222,
+        "init_time_max": 0.00011139499838463962,
+        "max_rss_mb": 48.1
+      }
+    },
+    "B2": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "029d53fcbef2fba076b587d00792113e0de0c815ebf2c6e777bc46354d4319b2",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 1,
+        "hit_rate": 0.08333333333333333,
+        "games_with_hit": 1,
+        "games_with_hit_fraction": 0.5,
+        "direct_returns": 1,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10,
+            "matches": 1,
+            "direct": 1
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 11,
+        "depth_not_applicable": 1,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010133083333333334,
+        "step_time_max": 0.011079,
+        "init_time_max": 0.00011287900269962847,
+        "max_rss_mb": 48.2
+      }
+    }
+  },
+  "source_ranking": [
+    "B0",
+    "B1",
+    "B2"
+  ],
+  "size_coverage": {
+    "3": {
+      "queryable": 12,
+      "matched": 0,
+      "rate": 0.0,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 0
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 0
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": []
+    },
+    "6": {
+      "queryable": 12,
+      "matched": 1,
+      "rate": 0.08333333333333333,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 1
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 1
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": [
+        "S0_E1_N__r0c2_S__P1@0"
+      ]
+    },
+    "12": {
+      "queryable": 12,
+      "matched": 1,
+      "rate": 0.08333333333333333,
+      "by_stage": {
+        "early": {
+          "queryable": 10,
+          "matched": 1
+        },
+        "middle": {
+          "queryable": 2,
+          "matched": 0
+        },
+        "late": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "by_obstacle_class": {
+        "corner": {
+          "queryable": 0,
+          "matched": 0
+        },
+        "edge": {
+          "queryable": 12,
+          "matched": 1
+        },
+        "interior": {
+          "queryable": 0,
+          "matched": 0
+        }
+      },
+      "matched_turns": [
+        "S0_E1_N__r0c2_S__P1@0"
+      ]
+    }
+  },
+  "sizes_with_new_coverage": [
+    3,
+    6
+  ],
+  "size_games": {
+    "3": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "13b317c8ea1093c8beee9cc8f9be7e8a25149e3a37567bd577f3dc3bbe96c22a",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 0,
+        "hit_rate": 0.0,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 12,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010948333333333332,
+        "step_time_max": 0.010992,
+        "init_time_max": 0.00014357597683556378,
+        "max_rss_mb": 48.3
+      }
+    },
+    "6": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "d9938f99c79953bcf2800a8e3df8063a912bcc65cc6f382c5c5b7e5a5dd9859c",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 1,
+        "hit_rate": 0.08333333333333333,
+        "games_with_hit": 1,
+        "games_with_hit_fraction": 0.5,
+        "direct_returns": 1,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10,
+            "matches": 1,
+            "direct": 1
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 11,
+        "depth_not_applicable": 1,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010170166666666668,
+        "step_time_max": 0.011047,
+        "init_time_max": 0.00010459500481374562,
+        "max_rss_mb": 49.7
+      }
+    }
+  },
+  "representation_selected": {
+    "status": "measured",
+    "label": "smoke_b0_k3",
+    "canonical_entries": 3,
+    "covered_queries": 12,
+    "miss_queries": 3,
+    "repeats": 1,
+    "identical_moves": true,
+    "layouts": {
+      "d4_compact_zlib": {
+        "layout": "d4_compact_zlib",
+        "symmetry": "d4",
+        "key": "compact",
+        "compression": "zlib",
+        "entries": 3,
+        "data_bytes": 40,
+        "module_bytes": 557,
+        "decoded_bytes": 304,
+        "init_ms": 0.030794995836913586,
+        "key_us": 314.35900018550456,
+        "query_us": 337.48480103289086
+      },
+      "expanded_compact_zlib": {
+        "layout": "expanded_compact_zlib",
+        "symmetry": "expanded",
+        "key": "compact",
+        "compression": "zlib",
+        "entries": 12,
+        "data_bytes": 104,
+        "module_bytes": 636,
+        "decoded_bytes": 1144,
+        "init_ms": 0.03496301360428333,
+        "key_us": 5.934798779586951,
+        "query_us": 9.44613323857387
+      },
+      "d4_tuple_zlib": {
+        "layout": "d4_tuple_zlib",
+        "symmetry": "d4",
+        "key": "tuple",
+        "compression": "zlib",
+        "entries": 3,
+        "data_bytes": 44,
+        "module_bytes": 559,
+        "decoded_bytes": 1624,
+        "init_ms": 0.014151009963825345,
+        "key_us": 346.8977326216797,
+        "query_us": 327.2073343396187
+      },
+      "d4_compact_none": {
+        "layout": "d4_compact_none",
+        "symmetry": "d4",
+        "key": "compact",
+        "compression": "none",
+        "entries": 3,
+        "data_bytes": 68,
+        "module_bytes": 585,
+        "decoded_bytes": 304,
+        "init_ms": 0.020064995624125004,
+        "key_us": 310.41053395407897,
+        "query_us": 303.38573463571566
+      }
+    },
+    "comparisons": [
+      {
+        "property": "symmetry",
+        "baseline": "d4_compact_zlib",
+        "alternative": "expanded_compact_zlib",
+        "metrics": {
+          "entries": {
+            "baseline": 3,
+            "alternative": 12
+          },
+          "data_bytes": {
+            "baseline": 40,
+            "alternative": 104
+          },
+          "module_bytes": {
+            "baseline": 557,
+            "alternative": 636
+          },
+          "query_us": {
+            "baseline": 337.48480103289086,
+            "alternative": 9.44613323857387
+          }
+        }
+      },
+      {
+        "property": "key",
+        "baseline": "d4_compact_zlib",
+        "alternative": "d4_tuple_zlib",
+        "metrics": {
+          "key_us": {
+            "baseline": 314.35900018550456,
+            "alternative": 346.8977326216797
+          },
+          "query_us": {
+            "baseline": 337.48480103289086,
+            "alternative": 327.2073343396187
+          },
+          "decoded_bytes": {
+            "baseline": 304,
+            "alternative": 1624
+          }
+        }
+      },
+      {
+        "property": "compression",
+        "baseline": "d4_compact_zlib",
+        "alternative": "d4_compact_none",
+        "metrics": {
+          "init_ms": {
+            "baseline": 0.030794995836913586,
+            "alternative": 0.020064995624125004
+          },
+          "data_bytes": {
+            "baseline": 40,
+            "alternative": 68
+          },
+          "module_bytes": {
+            "baseline": 557,
+            "alternative": 585
+          },
+          "decoded_bytes": {
+            "baseline": 304,
+            "alternative": 304
+          }
+        }
+      }
+    ]
+  },
+  "status": "selected",
+  "source": "B0",
+  "second_source": "B1",
+  "source_tie": true,
+  "k_star": 3,
+  "selected_book_file": "experiments/b_examples/book/books/B0_k3.json"
+}

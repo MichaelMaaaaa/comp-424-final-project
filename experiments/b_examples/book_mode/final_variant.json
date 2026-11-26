@@ -1,0 +1,25 @@
+{
+  "book": {
+    "mode": "N"
+  },
+  "book_hash": null,
+  "config_hash": "52d27412009536ccdac18dd4e7e8620ff92daa90851e001599f1d06ba1cda5ac",
+  "evaluation": {
+    "evaluation_id": "E1"
+  },
+  "max_depth": 2,
+  "parent_variant": null,
+  "search": {
+    "alpha_beta": true,
+    "key_mode": "tuple",
+    "ordering": true,
+    "preferred_first": false,
+    "reuse_results": false,
+    "symmetry": false,
+    "tt": true,
+    "tt_capacity": 50000
+  },
+  "step_budget": 0.012,
+  "telemetry": true,
+  "variant_id": "S0_E1_N"
+}

@@ -1,0 +1,12 @@
+{
+  "games": 6,
+  "complete": true,
+  "seconds_total": 8.290462282020599,
+  "seconds_collector": 2.245288455073023,
+  "seconds_opponent": 6.038577003986575,
+  "by_pool": {
+    "B0": 1.325594889029162,
+    "B1": 7.687996288004797
+  },
+  "request_hash": "53b3266ecc264033a12bcf772f79dd2c88aaba8b5aee322d7772fe48d2661191"
+}

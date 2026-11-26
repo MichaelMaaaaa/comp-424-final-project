@@ -1,0 +1,130 @@
+{
+  "status": "measured",
+  "label": "current_ef31072c65b6",
+  "canonical_entries": 486,
+  "covered_queries": 3864,
+  "miss_queries": 486,
+  "repeats": 1,
+  "identical_moves": true,
+  "layouts": {
+    "d4_compact_zlib": {
+      "layout": "d4_compact_zlib",
+      "symmetry": "d4",
+      "key": "compact",
+      "compression": "zlib",
+      "entries": 486,
+      "data_bytes": 4700,
+      "module_bytes": 5709,
+      "decoded_bytes": 44436,
+      "init_ms": 0.361471000360325,
+      "key_us": 311.7853020660408,
+      "query_us": 323.19590321543956
+    },
+    "expanded_compact_zlib": {
+      "layout": "expanded_compact_zlib",
+      "symmetry": "expanded",
+      "key": "compact",
+      "compression": "zlib",
+      "entries": 3864,
+      "data_bytes": 32996,
+      "module_bytes": 36996,
+      "decoded_bytes": 353840,
+      "init_ms": 2.5899239990394562,
+      "key_us": 6.749344134606935,
+      "query_us": 10.744257008485581
+    },
+    "d4_tuple_zlib": {
+      "layout": "d4_tuple_zlib",
+      "symmetry": "d4",
+      "key": "tuple",
+      "compression": "zlib",
+      "entries": 486,
+      "data_bytes": 5376,
+      "module_bytes": 6455,
+      "decoded_bytes": 258276,
+      "init_ms": 0.7267569890245795,
+      "key_us": 303.69058229971205,
+      "query_us": 316.6259448284861
+    },
+    "d4_compact_none": {
+      "layout": "d4_compact_none",
+      "symmetry": "d4",
+      "key": "compact",
+      "compression": "none",
+      "entries": 486,
+      "data_bytes": 11016,
+      "module_bytes": 12689,
+      "decoded_bytes": 44436,
+      "init_ms": 0.2855949860531837,
+      "key_us": 309.63122574398403,
+      "query_us": 322.8060781605135
+    }
+  },
+  "comparisons": [
+    {
+      "property": "symmetry",
+      "baseline": "d4_compact_zlib",
+      "alternative": "expanded_compact_zlib",
+      "metrics": {
+        "entries": {
+          "baseline": 486,
+          "alternative": 3864
+        },
+        "data_bytes": {
+          "baseline": 4700,
+          "alternative": 32996
+        },
+        "module_bytes": {
+          "baseline": 5709,
+          "alternative": 36996
+        },
+        "query_us": {
+          "baseline": 323.19590321543956,
+          "alternative": 10.744257008485581
+        }
+      }
+    },
+    {
+      "property": "key",
+      "baseline": "d4_compact_zlib",
+      "alternative": "d4_tuple_zlib",
+      "metrics": {
+        "key_us": {
+          "baseline": 311.7853020660408,
+          "alternative": 303.69058229971205
+        },
+        "query_us": {
+          "baseline": 323.19590321543956,
+          "alternative": 316.6259448284861
+        },
+        "decoded_bytes": {
+          "baseline": 44436,
+          "alternative": 258276
+        }
+      }
+    },
+    {
+      "property": "compression",
+      "baseline": "d4_compact_zlib",
+      "alternative": "d4_compact_none",
+      "metrics": {
+        "init_ms": {
+          "baseline": 0.361471000360325,
+          "alternative": 0.2855949860531837
+        },
+        "data_bytes": {
+          "baseline": 4700,
+          "alternative": 11016
+        },
+        "module_bytes": {
+          "baseline": 5709,
+          "alternative": 12689
+        },
+        "decoded_bytes": {
+          "baseline": 44436,
+          "alternative": 44436
+        }
+      }
+    }
+  ]
+}

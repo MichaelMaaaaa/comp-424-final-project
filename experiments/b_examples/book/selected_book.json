@@ -1,0 +1,74 @@
+{
+  "schema": "comp424-experiments-v1",
+  "execution_tier": "smoke",
+  "formal_selection": false,
+  "online_variant": {
+    "book": {
+      "mode": "N"
+    },
+    "book_hash": null,
+    "config_hash": "52d27412009536ccdac18dd4e7e8620ff92daa90851e001599f1d06ba1cda5ac",
+    "evaluation": {
+      "evaluation_id": "E1"
+    },
+    "max_depth": 2,
+    "parent_variant": null,
+    "search": {
+      "alpha_beta": true,
+      "key_mode": "tuple",
+      "ordering": true,
+      "preferred_first": false,
+      "reuse_results": false,
+      "symmetry": false,
+      "tt": true,
+      "tt_capacity": 50000
+    },
+    "step_budget": 0.012,
+    "telemetry": true,
+    "variant_id": "S0_E1_N"
+  },
+  "K": 12,
+  "selected_book": null,
+  "mode_if_no_book": "N",
+  "status": "selected",
+  "source": "B0",
+  "second_source": "B1",
+  "source_tie": true,
+  "k_star": 3,
+  "book_file": "experiments/b_examples/book/books/B0_k3.json",
+  "label": "smoke_b0_k3",
+  "provider": "agents.books.smoke_b0_k3",
+  "hash": "d2f3434ae9c076237c52fa60dd94192902df0d86bc95aa258629848d04953c77",
+  "version": "2f7398b19e9d71386b5ace0103fb1c01682fa4d0e92e2e38b9f775b103395bff",
+  "entries": 3,
+  "variant_D": {
+    "book": {
+      "mode": "D",
+      "provider": "agents.books.smoke_b0_k3",
+      "hash": "d2f3434ae9c076237c52fa60dd94192902df0d86bc95aa258629848d04953c77",
+      "version": "2f7398b19e9d71386b5ace0103fb1c01682fa4d0e92e2e38b9f775b103395bff",
+      "entries": 3
+    },
+    "evaluation": {
+      "evaluation_id": "E1"
+    },
+    "max_depth": 2,
+    "parent_variant": "S0_E1_N",
+    "search": {
+      "alpha_beta": true,
+      "key_mode": "tuple",
+      "ordering": true,
+      "preferred_first": false,
+      "reuse_results": false,
+      "symmetry": false,
+      "tt": true,
+      "tt_capacity": 50000
+    },
+    "step_budget": 0.012,
+    "telemetry": true,
+    "variant_id": "S0_E1_N__smoke_b0_k3_D"
+  },
+  "d_games": "experiments/b_examples/book/games/size_B0_k3/games.jsonl",
+  "second_source_book_file": "experiments/b_examples/book/books/B1_k3.json",
+  "reference_games": "experiments/b_examples/d1_reference/games.jsonl"
+}

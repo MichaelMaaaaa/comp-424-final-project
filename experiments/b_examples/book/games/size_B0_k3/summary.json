@@ -1,0 +1,20 @@
+{
+  "complete": true,
+  "planned": 2,
+  "adjudicated": 2,
+  "W": 2,
+  "D": 0,
+  "L": 0,
+  "score": 1.0,
+  "technical_failures": 0,
+  "opponent_technical_failures": 0,
+  "eligible": true,
+  "paired_scores": {
+    "r0c2_S": 1.0
+  },
+  "missing_game_ids": [],
+  "request_hash": "13b317c8ea1093c8beee9cc8f9be7e8a25149e3a37567bd577f3dc3bbe96c22a",
+  "variant_id": "S0_E1_N__smoke_b0_k3_D",
+  "execution_tier": "smoke",
+  "formal_ranking_allowed": false
+}

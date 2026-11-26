@@ -1,0 +1,29 @@
+{
+  "book": {
+    "entries": 3,
+    "hash": "d2f3434ae9c076237c52fa60dd94192902df0d86bc95aa258629848d04953c77",
+    "mode": "D",
+    "provider": "agents.books.smoke_b0_k3",
+    "version": "2f7398b19e9d71386b5ace0103fb1c01682fa4d0e92e2e38b9f775b103395bff"
+  },
+  "book_hash": "d2f3434ae9c076237c52fa60dd94192902df0d86bc95aa258629848d04953c77",
+  "config_hash": "59dd556f969676b8cfa398111221b1a061b835f269cda2ecf068d3632f8f2b3e",
+  "evaluation": {
+    "evaluation_id": "E1"
+  },
+  "max_depth": 2,
+  "parent_variant": "S0_E1_N",
+  "search": {
+    "alpha_beta": true,
+    "key_mode": "tuple",
+    "ordering": true,
+    "preferred_first": false,
+    "reuse_results": false,
+    "symmetry": false,
+    "tt": true,
+    "tt_capacity": 50000
+  },
+  "step_budget": 0.012,
+  "telemetry": true,
+  "variant_id": "S0_E1_N__smoke_b0_k3_D"
+}

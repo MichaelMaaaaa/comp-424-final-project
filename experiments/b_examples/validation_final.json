@@ -1,0 +1,117 @@
+{
+  "path": "experiments/b_examples/generated/final/student_agent.py",
+  "verdict": "PASS",
+  "warnings": 0,
+  "findings": [
+    {
+      "level": "PASS",
+      "message": "file name / size / encoding",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "syntax",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "imports: dataclasses, functools, time, numpy, constants, helpers, math, sys, json, agents.agent, store",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "registration: class StudentAgent registered as \"student_agent\"",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "step(self, board, reserves, player, opponent)",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "module level: only imports, constants and definitions",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "sandbox load: init_time 0.00 s, rss 40.4 MB",
+      "line": null,
+      "detail": []
+    },
+    {
+      "level": "PASS",
+      "message": "4 games vs random_agent (allow_moves=True, win_length=4): W4 D0 L0 | max step 0.01 s | strikes 0 | forfeits 0",
+      "line": null,
+      "detail": []
+    }
+  ],
+  "dynamic": [
+    {
+      "rules": {
+        "allow_moves": true,
+        "win_length": 4
+      },
+      "games": [
+        {
+          "seed": 0,
+          "seat": 1,
+          "outcome": "W",
+          "reason": "line",
+          "plies": 13,
+          "strikes": 0,
+          "log_bytes": 2420
+        },
+        {
+          "seed": 0,
+          "seat": 2,
+          "outcome": "W",
+          "reason": "line",
+          "plies": 10,
+          "strikes": 0,
+          "log_bytes": 1727
+        },
+        {
+          "seed": 1,
+          "seat": 1,
+          "outcome": "W",
+          "reason": "line",
+          "plies": 11,
+          "strikes": 0,
+          "log_bytes": 2077
+        },
+        {
+          "seed": 1,
+          "seat": 2,
+          "outcome": "W",
+          "reason": "line",
+          "plies": 10,
+          "strikes": 0,
+          "log_bytes": 1725
+        }
+      ],
+      "W": 4,
+      "D": 0,
+      "L": 0,
+      "max_step": 0.011155,
+      "strikes": {},
+      "notes": {},
+      "forfeits": 0,
+      "passes": 0,
+      "init_time": 3.936901339329779e-05,
+      "max_rss_mb": 40.4,
+      "load_error": null,
+      "examples": {},
+      "mean_step": 0.01095030434782609
+    }
+  ],
+  "class_name": "StudentAgent",
+  "python": "3.11.18",
+  "numpy": "1.26.4"
+}

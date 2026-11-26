@@ -1,0 +1,16 @@
+{
+  "selected_book": "experiments/b_run/book/selected_book.json",
+  "online_config": "experiments/f_run/recheck/online_config.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "d1_reference_games": "experiments/f_run/recheck/d1_reference/games.jsonl",
+  "positions": "experiments/a_run/prepare/positions.json",
+  "opponent": {"kind": "ab", "budget": 1.5},
+  "overhead": {"repeats": 3, "max_positions": null},
+  "smoke": {
+    "max_configs": 1,
+    "step_budget": 0.012,
+    "max_depth": 2,
+    "opponent_budget": 0.006,
+    "overhead": {"repeats": 1, "max_positions": 4}
+  }
+}

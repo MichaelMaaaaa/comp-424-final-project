@@ -1,0 +1,394 @@
+{
+  "schema": "comp424-experiments-v1",
+  "execution_tier": "smoke",
+  "formal_selection": false,
+  "online_variant_id": "S0_E1_N",
+  "reference_check": {
+    "verified": true,
+    "reference_variant_id": "S0_E1_N"
+  },
+  "opponent": {
+    "kind": "ab",
+    "budget": 0.006
+  },
+  "d1": {
+    "N": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "7416ed6fe6efe9f8afc82c939cd6bf3091111e83d9cef8c44949c8d699083fcb",
+      "metrics": {
+        "games": 2,
+        "queries": 0,
+        "matches": 0,
+        "hit_rate": null,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10
+          },
+          "middle": {
+            "turns": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 12,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010932416666666667,
+        "step_time_max": 0.010976,
+        "init_time_max": 3.2651994843035936e-05,
+        "max_rss_mb": 41.6
+      }
+    },
+    "D": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "444d8411c75b7eda72844686eb677be5bb30befb204e86d3e41b8887deffb1f2",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 0,
+        "hit_rate": 0.0,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 12,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010948333333333332,
+        "step_time_max": 0.010992,
+        "init_time_max": 0.00014357597683556378,
+        "max_rss_mb": 48.3
+      }
+    },
+    "H": {
+      "complete": true,
+      "eligible": true,
+      "W": 2,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "8c9537b3ee637ea7b93266621ac1293a1a3026d1215bad2d09965a9438ab6485",
+      "metrics": {
+        "games": 2,
+        "queries": 12,
+        "matches": 0,
+        "hit_rate": 0.0,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 10,
+            "queries": 10
+          },
+          "middle": {
+            "turns": 2,
+            "queries": 2
+          },
+          "late": {}
+        },
+        "searched_turns": 12,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010947,
+        "step_time_max": 0.011023,
+        "init_time_max": 0.00010691600618883967,
+        "max_rss_mb": 45.6
+      }
+    }
+  },
+  "development": {
+    "N": {
+      "complete": true,
+      "eligible": true,
+      "W": 4,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "e323119d76873b03b7b37120f6d210a5aa8d86195830e03e6c53496db82a00da",
+      "metrics": {
+        "games": 4,
+        "queries": 0,
+        "matches": 0,
+        "hit_rate": null,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 20
+          },
+          "middle": {
+            "turns": 6
+          },
+          "late": {}
+        },
+        "searched_turns": 26,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010934576923076924,
+        "step_time_max": 0.010977,
+        "init_time_max": 3.6770012229681015e-05,
+        "max_rss_mb": 47.6
+      }
+    },
+    "D": {
+      "complete": true,
+      "eligible": true,
+      "W": 4,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "ecfc009ec7fbc9456cc25c1737d234689424501b259011648dea39348e08d626",
+      "metrics": {
+        "games": 4,
+        "queries": 26,
+        "matches": 0,
+        "hit_rate": 0.0,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 20,
+            "queries": 20
+          },
+          "middle": {
+            "turns": 6,
+            "queries": 6
+          },
+          "late": {}
+        },
+        "searched_turns": 26,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010967846153846154,
+        "step_time_max": 0.011259,
+        "init_time_max": 0.00014681401080451906,
+        "max_rss_mb": 49.2
+      }
+    },
+    "H": {
+      "complete": true,
+      "eligible": true,
+      "W": 4,
+      "D": 0,
+      "L": 0,
+      "score": 1.0,
+      "technical_failures": 0,
+      "request_hash": "9d98c80a79baef9c8459f952729b2b25406d86bfa75a9e1267a571e322d312a9",
+      "metrics": {
+        "games": 4,
+        "queries": 26,
+        "matches": 0,
+        "hit_rate": 0.0,
+        "games_with_hit": 0,
+        "games_with_hit_fraction": 0.0,
+        "direct_returns": 0,
+        "hint_only": 0,
+        "by_stage": {
+          "early": {
+            "turns": 20,
+            "queries": 20
+          },
+          "middle": {
+            "turns": 6,
+            "queries": 6
+          },
+          "late": {}
+        },
+        "searched_turns": 26,
+        "depth_not_applicable": 0,
+        "depth_zero": 0,
+        "mean_completed_depth": 1,
+        "step_time_mean": 0.010948192307692308,
+        "step_time_max": 0.011023,
+        "init_time_max": 0.00010691600618883967,
+        "max_rss_mb": 49.2
+      }
+    }
+  },
+  "development_ranking": [
+    "N",
+    "D",
+    "H"
+  ],
+  "paired_difference_vs_N": {
+    "D": {
+      "complete": true,
+      "mean": 0.0,
+      "improved": 0,
+      "unchanged": 2,
+      "worse": 0,
+      "bootstrap_config_ci95": [
+        0.0,
+        0.0
+      ],
+      "sampling_unit": "configuration (both seats together)"
+    },
+    "H": {
+      "complete": true,
+      "mean": 0.0,
+      "improved": 0,
+      "unchanged": 2,
+      "worse": 0,
+      "bootstrap_config_ci95": [
+        0.0,
+        0.0
+      ],
+      "sampling_unit": "configuration (both seats together)"
+    }
+  },
+  "all_miss_overhead": {
+    "positions": 4,
+    "repeats": 1,
+    "summary": {
+      "N": {
+        "measurements": 4,
+        "any_match": false,
+        "median_step_seconds": 0.010857161003514193,
+        "mean_completed_depth": 1,
+        "median_query_seconds": null,
+        "max_query_seconds": null
+      },
+      "D": {
+        "measurements": 4,
+        "any_match": false,
+        "median_step_seconds": 0.010853759493329562,
+        "mean_completed_depth": 1,
+        "median_query_seconds": 0.0003369170008227229,
+        "max_query_seconds": 0.0003905769845005125
+      }
+    },
+    "rows": [
+      {
+        "position_id": "5ac9af5efdf465f5",
+        "repetition": 0,
+        "mode": "N",
+        "elapsed": 0.010864470998058096,
+        "completed_depth": 1,
+        "book_queried": false,
+        "book_matched": false,
+        "query_seconds": null,
+        "budget_ok": true
+      },
+      {
+        "position_id": "5ac9af5efdf465f5",
+        "repetition": 0,
+        "mode": "D",
+        "elapsed": 0.010862871014978737,
+        "completed_depth": 1,
+        "book_queried": true,
+        "book_matched": false,
+        "query_seconds": 0.0003905769845005125,
+        "budget_ok": true
+      },
+      {
+        "position_id": "bb9652d4b753fb48",
+        "repetition": 0,
+        "mode": "N",
+        "elapsed": 0.010907132993452251,
+        "completed_depth": 1,
+        "book_queried": false,
+        "book_matched": false,
+        "query_seconds": null,
+        "budget_ok": true
+      },
+      {
+        "position_id": "bb9652d4b753fb48",
+        "repetition": 0,
+        "mode": "D",
+        "elapsed": 0.010861516988370568,
+        "completed_depth": 1,
+        "book_queried": true,
+        "book_matched": false,
+        "query_seconds": 0.00034143400262109935,
+        "budget_ok": true
+      },
+      {
+        "position_id": "fe75383216db0b99",
+        "repetition": 0,
+        "mode": "N",
+        "elapsed": 0.01084985100897029,
+        "completed_depth": 1,
+        "book_queried": false,
+        "book_matched": false,
+        "query_seconds": null,
+        "budget_ok": true
+      },
+      {
+        "position_id": "fe75383216db0b99",
+        "repetition": 0,
+        "mode": "D",
+        "elapsed": 0.010845777025679126,
+        "completed_depth": 1,
+        "book_queried": true,
+        "book_matched": false,
+        "query_seconds": 0.0003033050161320716,
+        "budget_ok": true
+      },
+      {
+        "position_id": "710842f01fd86d00",
+        "repetition": 0,
+        "mode": "N",
+        "elapsed": 0.010844228003406897,
+        "completed_depth": 1,
+        "book_queried": false,
+        "book_matched": false,
+        "query_seconds": null,
+        "budget_ok": true
+      },
+      {
+        "position_id": "710842f01fd86d00",
+        "repetition": 0,
+        "mode": "D",
+        "elapsed": 0.010846001998288557,
+        "completed_depth": 1,
+        "book_queried": true,
+        "book_matched": false,
+        "query_seconds": 0.00033239999902434647,
+        "budget_ok": true
+      }
+    ]
+  },
+  "status": "selected",
+  "mode": "N",
+  "selected": "N"
+}

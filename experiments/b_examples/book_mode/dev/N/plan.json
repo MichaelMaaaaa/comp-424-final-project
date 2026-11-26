@@ -1,0 +1,211 @@
+{
+  "schema": "comp424-experiments-v1",
+  "request_hash": "e323119d76873b03b7b37120f6d210a5aa8d86195830e03e6c53496db82a00da",
+  "request": {
+    "variant": {
+      "book": {
+        "mode": "N"
+      },
+      "book_hash": null,
+      "config_hash": "52d27412009536ccdac18dd4e7e8620ff92daa90851e001599f1d06ba1cda5ac",
+      "evaluation": {
+        "evaluation_id": "E1"
+      },
+      "max_depth": 2,
+      "parent_variant": null,
+      "search": {
+        "alpha_beta": true,
+        "key_mode": "tuple",
+        "ordering": true,
+        "preferred_first": false,
+        "reuse_results": false,
+        "symmetry": false,
+        "tt": true,
+        "tt_capacity": 50000
+      },
+      "step_budget": 0.012,
+      "telemetry": true,
+      "variant_id": "S0_E1_N"
+    },
+    "configurations": [
+      {
+        "config_id": "r2c2_S",
+        "obstacle": [
+          2,
+          2
+        ],
+        "obstacle_row": 2,
+        "obstacle_col": 2,
+        "obstacle_class": "interior",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D0",
+        "setup_seed": 44,
+        "opponent_rng_seed": 1222505303,
+        "collection_seed": 3001045857
+      },
+      {
+        "config_id": "r0c2_S",
+        "obstacle": [
+          0,
+          2
+        ],
+        "obstacle_row": 0,
+        "obstacle_col": 2,
+        "obstacle_class": "edge",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D1",
+        "setup_seed": 11,
+        "opponent_rng_seed": 1188157871,
+        "collection_seed": 1038437911
+      }
+    ],
+    "opponent": {
+      "kind": "ab",
+      "budget": 0.006
+    },
+    "strict": true,
+    "execution_tier": "smoke",
+    "code_hash": "e3d59d7471b939776d53fe700138f77823968d6e09ccebc942a759786443477e",
+    "machine": {
+      "python": "3.11.18",
+      "numpy": "1.26.4",
+      "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "cpu": "Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz",
+      "logical_cpus": 4,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reuse_sources": {
+      "experiments/b_examples/book_mode/d1/N/games.jsonl": "b072f2df5e0ec3722937a6543d4b34ff04f803688d4e2373fb4ac69e4c99735b",
+      "experiments/b_examples/d1_reference/games.jsonl": "f329b1e0e24e4abc3ecaeeac8ffa942bac30ed2704e152542238ea29026389c1"
+    }
+  },
+  "provenance": {
+    "source_commit": "a407698955bb2ea9931c1264b2d0b7d0f8db479f",
+    "files": {
+      "agents/__init__.py": "154c7d1928ab64ce84e65e967a441ef90f1c983dce70476a9217ca0b4935c125",
+      "agents/agent.py": "649142ae91d292da88aeea46b440b7663fe1e2ef473252e49fd157a49612c6ac",
+      "agents/alpha_beta.py": "c02f76a78e0198bed1fe5e00db4f70b21c60c9d38f6db058d1ec455ed2a8dd08",
+      "agents/book_policy.py": "b00cafa4edd447d4aed647b58b163920ebd1b9d9d61ee9056a1999c6c09cb1b2",
+      "agents/evaluation.py": "3365ec4cf35d254a21fe209a0157b3592931d6c58ce748e59c7d4353dc6d2ccc",
+      "agents/experiment_agent.py": "0a018e59b7468639cd88c76d2726a5dfb2465e62fb5d16e08946dbe30d7bd322",
+      "agents/game_state.py": "8a1a15bc31f0ff91b26b76a7cea496474373a693e7cf9c3bf9c3ec72d7eb536f",
+      "agents/greedy_agent.py": "bb904b330341a6072052767425684cf056d7e4e3db7d2f8e9c544c7f7c767546",
+      "agents/human_agent.py": "74963e2a8558ae160addc12508ae0c7fa3da55069534095da1b5c696d709f310",
+      "agents/iterative_deepening.py": "f91019e4e93efb1a01a648ec9b0328b58f4aa6517966f2b25dc93ab56afc48df",
+      "agents/move_ordering.py": "8b221c856d3988a925c4cc0c627e4d1a66f26e95d68e7eefe928877a71f02b35",
+      "agents/random_agent.py": "f517508d8fa5cc482693b96ad6ee4722108b2adeafddf4d6cb85da00e7c16122",
+      "agents/search_engine.py": "3f962072d5543efa9afccccc1912eb85d6402f92ecf636a3048e3ca4ad7c5e18",
+      "agents/student_agent.py": "2e9c9dc5a021f615620f8844fbeb3ebdb7b99ae037d9a7bacf3daf7ef3116fed",
+      "agents/symmetry.py": "0f0a7630d42643806a4e0309971bdc7cf03036d8b98f7d07fd25d14293fe5d10",
+      "agents/transposition_table.py": "bfbc3408fc147cf8e2889ce394e6f9a662bdf6d779c6aa8d2d58553e7fd98730",
+      "allowed_imports.py": "b3f40d4928ed0204c27685784d74b4f91b84078e111ec2236c96863fba52786e",
+      "baselines/ab_baseline_agent.py": "d77bab7e1dd67c77b6331f5c6b44c0c8b9c6686f8d56e314c2eb0e44fb88ccfa",
+      "constants.py": "610e37c7585586c38d70c6419c27755b76aea615d57313a962652585600d9ded",
+      "helpers.py": "1d5787699c4e03dc54fc54494f07bb56280f79600e4d3c187d901ca49cd859ef",
+      "requirements.txt": "a86b083a962955c8d38fd2fe839953fc6c312dde3550a91ad36c0ef22a68f194",
+      "runners.py": "e5a34a66b3754af16104097b0630a2020328eb9f2a5c67bea5f1ba2e7858b9f0",
+      "search_experiments/__init__.py": "3265d192d35db4f7422cee0d211b32f31a876d6b67f4558b17f56604ab7dfdfd",
+      "search_experiments/build.py": "d8a832fe9d7865eb77e0d6aa2a75d11dcf05c3afa8c215aac789ad85bc61bd02",
+      "search_experiments/common.py": "769050c685591239919c8e7ee6a860828f5364b82e4b80805e8153948957285c",
+      "search_experiments/exp00_prepare.py": "0dcbe5ebd980a2bf3a376fe9fcc19b0f7c2cca14f1b60fc3751f27f79ab951fa",
+      "search_experiments/exp01_components.py": "08fabeb60bb1dc9460ebfdeeba1630fd6a7997b9eac3fd657243d956bf6ad56b",
+      "search_experiments/exp02_search.py": "671baf89de5860b20bc46b4b825ae18bc7904468bcdb2c21550e328dd91fcd81",
+      "search_experiments/measure.py": "b12ea04e693c5411447e6f0a9feb095dd0b5d1f63b017a687e1b389e3d8f6d1e",
+      "search_experiments/runner.py": "28a91cff933c89443227a4d601699f0b74d884a632eabecc038df573d479a89f",
+      "search_experiments/self_test.py": "f18daed264c6c22dbfffca81482d705d659423c932d72602b124c9f1b61a9d8a",
+      "validate_submission.py": "4f5c0f3b17ddbfabc7967a104bc06e4276163fdf6291cd660b7b74634d05c689",
+      "world.py": "0b9fc948a94635ff1223f3ad2c0e320855d9621bf7f970c13f715fd61f1f0584"
+    },
+    "code_hash": "e3d59d7471b939776d53fe700138f77823968d6e09ccebc942a759786443477e"
+  },
+  "games": [
+    {
+      "game_id": "S0_E1_N__r2c2_S__P1",
+      "config": {
+        "config_id": "r2c2_S",
+        "obstacle": [
+          2,
+          2
+        ],
+        "obstacle_row": 2,
+        "obstacle_col": 2,
+        "obstacle_class": "interior",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D0",
+        "setup_seed": 44,
+        "opponent_rng_seed": 1222505303,
+        "collection_seed": 3001045857
+      },
+      "seat": 1
+    },
+    {
+      "game_id": "S0_E1_N__r2c2_S__P2",
+      "config": {
+        "config_id": "r2c2_S",
+        "obstacle": [
+          2,
+          2
+        ],
+        "obstacle_row": 2,
+        "obstacle_col": 2,
+        "obstacle_class": "interior",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D0",
+        "setup_seed": 44,
+        "opponent_rng_seed": 1222505303,
+        "collection_seed": 3001045857
+      },
+      "seat": 2
+    },
+    {
+      "game_id": "S0_E1_N__r0c2_S__P1",
+      "config": {
+        "config_id": "r0c2_S",
+        "obstacle": [
+          0,
+          2
+        ],
+        "obstacle_row": 0,
+        "obstacle_col": 2,
+        "obstacle_class": "edge",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D1",
+        "setup_seed": 11,
+        "opponent_rng_seed": 1188157871,
+        "collection_seed": 1038437911
+      },
+      "seat": 1
+    },
+    {
+      "game_id": "S0_E1_N__r0c2_S__P2",
+      "config": {
+        "config_id": "r0c2_S",
+        "obstacle": [
+          0,
+          2
+        ],
+        "obstacle_row": 0,
+        "obstacle_col": 2,
+        "obstacle_class": "edge",
+        "removed_size": 0,
+        "removed_name": "S",
+        "split": "D1",
+        "setup_seed": 11,
+        "opponent_rng_seed": 1188157871,
+        "collection_seed": 1038437911
+      },
+      "seat": 2
+    }
+  ]
+}

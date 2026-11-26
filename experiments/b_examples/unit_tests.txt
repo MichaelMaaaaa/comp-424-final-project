@@ -1,0 +1,25 @@
+test_generated_provider_is_inlined_and_returns_the_book_move (tests.test_book_experiments.BuildTests.test_generated_provider_is_inlined_and_returns_the_book_move) ... EXP_STEP {"variant_id":"S0_E1_N__unit_build_D","ply":0,"completed_depth":null,"status":"book","book_queried":true,"book_matched":true,"book_action":"direct","book_version":"33114bd5f50d6f02f5c0cc2e07993a91f495c8a80e7f7a9bcaeeb042cf22a9c7","book_metadata":{"query_seconds":0.0004669690097216517,"mode":"D","key_found":true,"invalid_entry":false},"processing_before_report_s":0.0008673980191815645}
+ok
+test_collection_plan_balances_seats (tests.test_book_experiments.CandidateTests.test_collection_plan_balances_seats) ... ok
+test_nine_initial_classes_and_b0_order (tests.test_book_experiments.CandidateTests.test_nine_initial_classes_and_b0_order) ... ok
+test_shortage_is_filled_in_rotation_and_small_nc_keeps_initial_states (tests.test_book_experiments.CandidateTests.test_shortage_is_filled_in_rotation_and_small_nc_keeps_initial_states) ... ok
+test_stage_quotas_keep_initial_states_in_the_early_quota (tests.test_book_experiments.CandidateTests.test_stage_quotas_keep_initial_states_in_the_early_quota) ... ok
+test_export_puts_accepted_initial_states_first (tests.test_book_experiments.ExportCoverageAndRankTests.test_export_puts_accepted_initial_states_first) ... ok
+test_rank_uses_score_then_the_simpler_option (tests.test_book_experiments.ExportCoverageAndRankTests.test_rank_uses_score_then_the_simpler_option) ... ok
+test_replay_and_game_metrics (tests.test_book_experiments.ExportCoverageAndRankTests.test_replay_and_game_metrics) ... ok
+test_agent_uses_direct_and_hint (tests.test_book_experiments.HookTests.test_agent_uses_direct_and_hint) ... ok
+test_illegal_entry_is_not_matched (tests.test_book_experiments.HookTests.test_illegal_entry_is_not_matched) ... ok
+test_modes (tests.test_book_experiments.HookTests.test_modes) ... ok
+test_version_hash_and_deadline_checks (tests.test_book_experiments.HookTests.test_version_hash_and_deadline_checks) ... ok
+test_all_layouts_return_identical_legal_moves_and_misses (tests.test_book_experiments.RepresentationTests.test_all_layouts_return_identical_legal_moves_and_misses) ... ok
+test_expansion_merges_self_symmetric_orientations (tests.test_book_experiments.RepresentationTests.test_expansion_merges_self_symmetric_orientations) ... ok
+test_rules (tests.test_book_experiments.ScreeningTests.test_rules) ... ok
+test_canonical_key_is_invariant_and_stored_move_maps_back_legally (tests.test_book_experiments.SymmetryAndPackingTests.test_canonical_key_is_invariant_and_stored_move_maps_back_legally) ... ok
+test_current_book_round_trips_to_the_same_bytes (tests.test_book_experiments.SymmetryAndPackingTests.test_current_book_round_trips_to_the_same_bytes) ... ok
+test_key_and_move_packing_round_trip (tests.test_book_experiments.SymmetryAndPackingTests.test_key_and_move_packing_round_trip) ... ok
+test_transforms_round_trip_for_cells_and_moves (tests.test_book_experiments.SymmetryAndPackingTests.test_transforms_round_trip_for_cells_and_moves) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.751s
+
+OK

@@ -1,0 +1,32 @@
+{
+  "online_config": "experiments/f_run/recheck/online_config.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "d1_reference_games": "experiments/f_run/recheck/d1_reference/games.jsonl",
+  "book_label": "formal",
+  "opponent": {"kind": "ab", "budget": 1.5},
+  "collection": {
+    "move_time": 1.6,
+    "opponent_budget": 1.5,
+    "max_depth": null,
+    "b0_selfplay_per_config": 4,
+    "b1_selfplay_per_config": 2,
+    "b1_reuses_b0_selfplay": true
+  },
+  "candidates": {"nc": 600},
+  "analysis": {"budget": 10.0, "max_depth": null},
+  "screening": {"min_depth": 3, "stable_depths": 2},
+  "export": {"size_reference": 486, "sizes": [128, 256]},
+  "representation": {"repeats": 3},
+  "smoke": {
+    "max_configs": 1,
+    "step_budget": 0.012,
+    "max_depth": 2,
+    "opponent_budget": 0.006,
+    "collection": {"move_time": 0.02, "opponent_budget": 0.006, "max_depth": 2},
+    "candidates": {"nc": 12},
+    "analysis": {"budget": 0.3, "max_depth": 2},
+    "screening": {"min_depth": 1, "stable_depths": 1},
+    "export": {"sizes": [3, 6]},
+    "representation": {"repeats": 1}
+  }
+}

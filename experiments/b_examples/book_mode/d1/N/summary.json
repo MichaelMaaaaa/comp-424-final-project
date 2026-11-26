@@ -1,0 +1,20 @@
+{
+  "complete": true,
+  "planned": 2,
+  "adjudicated": 2,
+  "W": 2,
+  "D": 0,
+  "L": 0,
+  "score": 1.0,
+  "technical_failures": 0,
+  "opponent_technical_failures": 0,
+  "eligible": true,
+  "paired_scores": {
+    "r0c2_S": 1.0
+  },
+  "missing_game_ids": [],
+  "request_hash": "7416ed6fe6efe9f8afc82c939cd6bf3091111e83d9cef8c44949c8d699083fcb",
+  "variant_id": "S0_E1_N",
+  "execution_tier": "smoke",
+  "formal_ranking_allowed": false
+}

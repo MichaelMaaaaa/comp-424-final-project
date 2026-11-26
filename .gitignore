@@ -37,11 +37,19 @@
 !/tests/
 !/agents/search_engine.py
 !/agents/experiment_agent.py
+!/agents/book_policy.py
+!/book_experiments/
 
 # Generated formal runs stay local; the committed examples are small self-tests.
 /experiments/a_run/
 /experiments/a_smoke/
 /search_experiments/__pycache__/
 /tests/__pycache__/
+/experiments/b_run/
+/experiments/b_smoke/
+/experiments/b_examples/**/opponents/
+/experiments/b_examples/**/logs/
+/experiments/b_examples/**/candidate/
+/book_experiments/__pycache__/
 
 __pycache__/
