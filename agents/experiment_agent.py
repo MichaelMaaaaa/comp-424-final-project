@@ -7,6 +7,7 @@ import time
 
 from agents.agent import Agent
 from agents.game_state import GameState, StateTimeout, is_legal_move
+from agents.iterative_deepening import validate_max_depth
 from agents.search_engine import SearchConfig, SearchEngine, default_evaluator
 from helpers import get_valid_moves
 
@@ -17,6 +18,7 @@ class ExperimentAgent(Agent):
         self.variant = dict(variant or {"variant_id": "S0_E1_N", "search": {},
                                        "evaluation": {"evaluation_id": "E1"}, "book": {"mode": "N"}})
         self.name = self.variant["variant_id"]
+        validate_max_depth(self.variant.get("max_depth"))
         budget = self.variant.get("step_budget", 1.6)
         if isinstance(budget, bool) or not isinstance(budget, (int, float)) or not math.isfinite(budget) or budget < 0:
             raise ValueError("step_budget must be finite and nonnegative")
@@ -25,34 +27,42 @@ class ExperimentAgent(Agent):
         self.budget = budget
         self.call_count = 0
         self.last_info = None
-        factory = evaluation_factory or default_evaluator
+        factory = default_evaluator if evaluation_factory is None else evaluation_factory
         self.engine = SearchEngine(SearchConfig(**self.variant.get("search", {})),
                                    evaluator=factory(self.variant.get("evaluation")), diagnostics=False)
         book_config = self.variant.get("book", {"mode": "N"})
-        self.book_hook = book_factory(book_config, self.variant) if book_factory is not None else None
+        self.book_hook = None
+        if book_config.get("mode", "N") != "N" and book_factory is not None:
+            self.book_hook = book_factory(book_config, self.variant)
         if book_config.get("mode", "N") != "N" and self.book_hook is None:
             raise ValueError("a non-N book mode requires B's book_factory(config, variant)")
 
     def _report(self, info, started):
         info["processing_before_report_s"] = time.perf_counter() - started
         self.last_info = info
-        if self.variant.get("telemetry", False):
+        if self.variant.get("telemetry", True):
             print("EXP_STEP " + json.dumps(info, separators=(",", ":")), flush=True)
 
     def step(self, board, reserves, player, opponent):
         started = time.perf_counter()
-        # Keep reporting/return overhead inside the same whole-step budget.
-        deadline = started + max(0.0, self.budget - min(0.002, self.budget / 10))
+        # Allow for runtime pauses at cooperative checks plus reporting/return.
+        deadline = started + max(0.0, self.budget - min(0.05, self.budget / 10))
         ply = 2 * self.call_count + player - 1
         self.call_count += 1
         moves = get_valid_moves(board, reserves, player)
         fallback = moves[0]
         info = {"variant_id": self.name, "ply": ply, "completed_depth": None,
+                "stop_reason": "single_move", "interrupted_depth": None,
                 "status": "single_move", "book_queried": False, "book_matched": False, "book_action": "none"}
         if len(moves) == 1:
             self._report(info, started)
             return fallback
         state = GameState.from_observation(board, reserves, player, ply)
+        if time.perf_counter() >= deadline:
+            info.update(status="fallback", stop_reason="deadline_before_search", completed_depth=0,
+                        value=None, search_elapsed_s=0.0, iterations=[], solved_remaining=False)
+            self._report(info, started)
+            return fallback
         preferred = None
         if self.book_hook is not None and time.perf_counter() < deadline:
             info["book_queried"] = True
@@ -64,15 +74,17 @@ class ExperimentAgent(Agent):
                         book_version=decision.get("version"), book_metadata=decision.get("metadata", {}))
             direct = decision.get("direct_move")
             if direct is not None and is_legal_move(state, direct) and time.perf_counter() < deadline:
-                info.update(status="book", book_action="direct")
+                info.update(status="book", stop_reason="book_direct", book_action="direct")
                 self._report(info, started)
                 return direct
             hint = decision.get("preferred_move")
             if hint is not None and is_legal_move(state, hint):
                 preferred = hint
-                info["book_action"] = "hint"
         result = self.engine.search(state, deadline, self.variant.get("max_depth"), preferred)
+        if result.preferred_used:
+            info["book_action"] = "hint"
         info.update(status=result.status, completed_depth=result.completed_depth,
+                    stop_reason=result.stop_reason, interrupted_depth=result.interrupted_depth,
                     value=result.value, search_elapsed_s=result.elapsed,
                     iterations=[{"depth": r["depth"], "value": r["value"], "elapsed": r["elapsed"]}
                                 for r in result.iterations], solved_remaining=result.solved_remaining)
