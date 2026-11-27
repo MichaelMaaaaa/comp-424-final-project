@@ -13,8 +13,11 @@ import tempfile
 
 import numpy as np
 
+from agents.evaluation import evaluation_parameters
 from agents.game_state import GameState, terminal
+from agents.iterative_deepening import validate_max_depth
 from agents.search_engine import SearchConfig, default_evaluator
+from constants import BOARD_SIZE, MAX_PLIES
 from helpers import Move
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -98,21 +101,26 @@ def repair_jsonl_tail(path):
     if not path.exists():
         return
     data = path.read_bytes()
-    if data and not data.endswith(b"\n"):
-        # Preserve a valid final record; remove only an incomplete tail.
-        tail = data.rsplit(b"\n", 1)[-1]
+    if not data or data.endswith(b"\n"):
+        return
+    tail = data.rsplit(b"\n", 1)[-1]
+    # Never rewrite the completed prefix, even if recovery is interrupted.
+    with path.open("r+b") as handle:
         try:
             json.loads(tail)
         except (json.JSONDecodeError, UnicodeDecodeError):
-            path.write_bytes(data[:len(data) - len(tail)])
+            handle.truncate(len(data) - len(tail))
         else:
-            path.write_bytes(data + b"\n")
+            handle.seek(0, os.SEEK_END)
+            handle.write(b"\n")
+        handle.flush()
+        os.fsync(handle.fileno())
 
 
 def code_manifest():
     paths = [p for p in (REPO_ROOT / "agents").glob("*.py")]
     paths += [p for p in (REPO_ROOT / "search_experiments").glob("*.py")]
-    paths += [REPO_ROOT / name for name in ("helpers.py", "constants.py", "runners.py", "world.py",
+    paths += [REPO_ROOT / name for name in ("helpers.py", "constants.py", "runners.py", "world.py", "store.py",
                                            "allowed_imports.py", "validate_submission.py", "requirements.txt")]
     paths += [REPO_ROOT / "baselines" / "ab_baseline_agent.py"]
     files = {str(p.relative_to(REPO_ROOT)): file_hash(p) for p in sorted(paths)}
@@ -126,7 +134,12 @@ def machine_info():
             if line.startswith("model name"):
                 cpu = line.split(":", 1)[1].strip()
                 break
+    thread_vars = ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS")
     return {"python": platform.python_version(), "numpy": np.__version__, "platform": platform.platform(),
+            "host": platform.node(), "executable": str(Path(sys.executable).resolve()),
+            "prefix": sys.prefix, "base_prefix": sys.base_prefix,
+            "thread_environment": {key: os.environ.get(key) for key in thread_vars},
+            "strict_thread_environment": {key: os.environ.get(key, "1") for key in thread_vars},
             "machine": platform.machine(), "cpu": cpu, "logical_cpus": os.cpu_count(),
             "affinity": sorted(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else None}
 
@@ -163,10 +176,18 @@ def stage(ply):
     return "early" if ply < 10 else "middle" if ply < 30 else "late"
 
 
+OFFICIAL_RULES = {"board_size": BOARD_SIZE, "allow_moves": True, "win_length": 4, "max_plies": MAX_PLIES}
+
+
 def normalize_variant(variant):
     result = dict(variant)
     if not isinstance(result.get("variant_id"), str) or not result["variant_id"].strip():
         raise ValueError("variant_id is required")
+    validate_max_depth(result.get("max_depth"))
+    rules = result.get("rules", {})
+    if not isinstance(rules, dict) or any(key not in OFFICIAL_RULES or value != OFFICIAL_RULES[key]
+                                          for key, value in rules.items()):
+        raise ValueError("experiment variants use the fixed official rules")
     result.setdefault("parent_variant", None)
     result["search"] = asdict(SearchConfig(**result.get("search", {})))
     result.setdefault("evaluation", {"evaluation_id": "E1"})
@@ -177,6 +198,45 @@ def normalize_variant(variant):
     result.pop("config_hash", None)
     result["config_hash"] = digest(result)
     return json.loads(canonical_json(result))
+
+
+def variant_behavior_key(variant):
+    """Compare candidate behavior only. Match reuse uses the exact runner identity."""
+    config = normalize_variant(variant)
+    for key in ("variant_id", "parent_variant", "config_hash", "book_hash", "role", "stage"):
+        config.pop(key, None)
+    strength, weights = evaluation_parameters(config["evaluation"])
+    config["rules"] = OFFICIAL_RULES
+    depth = config.setdefault("max_depth", None)
+    # An active book provider can inspect these settings before search.
+    if config["book"].get("mode", "N") == "N":
+        config["evaluation"] = [strength, weights if strength else None]
+        config["book"] = {"mode": "N"}
+        budget = config["step_budget"]
+        if type(budget) in (int, float) and 0 <= budget <= 1.6:
+            config["step_budget"] = float(budget) if budget else 0.0
+        if type(depth) is int and depth >= MAX_PLIES:
+            config["max_depth"] = None
+        if not config["search"]["tt"]:
+            config["search"].pop("tt_capacity")
+    return digest(config)
+
+
+def deduplicate_variants(variants):
+    """Keep the first original object for each behavior and map role IDs to it."""
+    kept, aliases, definitions, first_ids = [], {}, {}, {}
+    for variant in variants:
+        config = normalize_variant(variant)
+        name = config["variant_id"]
+        if name in definitions and definitions[name] != config["config_hash"]:
+            raise ValueError(f"conflicting definitions for variant {name}")
+        definitions[name] = config["config_hash"]
+        behavior = variant_behavior_key(config)
+        if behavior not in first_ids:
+            kept.append(variant)
+            first_ids[behavior] = name
+        aliases[name] = first_ids[behavior]
+    return kept, aliases
 
 
 def resolve_evaluator(config):

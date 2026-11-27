@@ -4,18 +4,15 @@ import argparse
 from pathlib import Path
 
 from agents.search_engine import component_configs
-from search_experiments.common import atomic_json, code_manifest, load_json, machine_info
+from search_experiments.common import atomic_json, code_manifest, file_hash, load_json, machine_info
 from search_experiments.measure import exact_references, load_positions, measure
 
 
 def run(config, output, smoke=False):
     output = Path(output)
     settings = config.get("smoke", {}) if smoke else config
-    positions, payload = load_positions(config["positions"], settings.get("max_positions") if smoke else None)
-    if not smoke and payload.get("execution_tier") != "formal":
-        raise ValueError("formal measurements require formal reference-game positions")
-    if not smoke and not payload.get("reference_complete"):
-        raise ValueError("finish or resume all reference games before formal components")
+    positions, payload = load_positions(config["positions"], settings.get("max_positions") if smoke else None,
+                                        require_formal=not smoke)
     depths = settings.get("depths", [2, 3])
     guard = settings.get("guard_seconds", 60)
     evaluation = {"evaluation_id": "E1"}
@@ -25,6 +22,9 @@ def run(config, output, smoke=False):
     summary.update(execution_tier="smoke" if smoke else "formal",
                    positions_hash=payload["positions_hash"], positions_used=len(positions),
                    code_hash=code_manifest()["code_hash"], machine=machine_info(),
+                   exact_reference={"path": "references",
+                                    "request_hash": load_json(output/"references/request.json")["request_hash"],
+                                    "measurements_hash": file_hash(output/"references/measurements.jsonl")},
                    exact_reference_incomplete=sum(r["status"] != "completed" for r in references.values()))
     atomic_json(output / "components_summary.json", summary)
     return summary

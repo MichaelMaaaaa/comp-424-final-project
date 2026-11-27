@@ -1,0 +1,7 @@
+{
+  "search_selection": "experiments/a_run/search/search_selection.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "reuse_paths": [],
+  "opponent": {"kind": "ab", "budget": 1.5},
+  "smoke": {"max_configs": 1, "step_budget": 0.012, "opponent_budget": 0.006, "max_depth": 2}
+}

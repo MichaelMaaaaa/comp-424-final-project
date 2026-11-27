@@ -1,0 +1,15 @@
+{
+  "search_selection": "experiments/a_run/search/search_selection.json",
+  "recheck_selection": "experiments/f_run/recheck/recheck_selection.json",
+  "online_config": "experiments/f_run/recheck/online_config.json",
+  "selected_book": "experiments/b_run/book/selected_book.json",
+  "final_config": "experiments/b_run/book_mode/final_config.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "opponent": {"kind": "ab", "budget": 1.5},
+  "smoke": {
+    "max_configs": 1,
+    "step_budget": 0.012,
+    "max_depth": 2,
+    "opponent_budget": 0.006
+  }
+}

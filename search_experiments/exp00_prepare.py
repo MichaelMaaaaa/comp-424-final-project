@@ -39,13 +39,19 @@ def prepare(config, output, smoke=False):
     summary = run_pairs(variant, selected, output / "reference", opponent=opponent,
                         execution_tier="smoke" if smoke else "formal")
     records = read_jsonl(output / "reference" / "games.jsonl")
-    samples = sample_positions(records, config.get("sample_seed", 424))
+    current = [r for r in records if r["request_hash"] == summary["request_hash"]
+               and r.get("manifest_hash") == desired["manifest_hash"]]
+    samples = sample_positions(current, config.get("sample_seed", 424))
     samples["reference_request_hash"] = summary["request_hash"]
     samples["reference_complete"] = summary["complete"]
+    samples["reference_eligible"] = summary["eligible"]
+    samples["reference_code_hash"] = summary["code_hash"]
+    samples["manifest_hash"] = desired["manifest_hash"]
     samples["execution_tier"] = "smoke" if smoke else "formal"
     atomic_json(output / "positions.json", samples)
     atomic_json(output / "preparation.json", {"manifest_hash": desired["manifest_hash"],
-        "reference_complete": summary["complete"], "positions_count": samples["count"],
+        "reference_complete": summary["complete"], "reference_eligible": summary["eligible"],
+        "reference_code_hash": summary["code_hash"], "positions_count": samples["count"],
         "target": samples["target"], "missing_strata": [row for row in samples["coverage"] if row["missing"]],
         "execution_tier": samples["execution_tier"]})
     return summary

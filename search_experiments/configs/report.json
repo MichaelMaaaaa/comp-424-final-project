@@ -1,0 +1,6 @@
+{
+  "final_summary": "experiments/f_run/final/final_summary.json",
+  "bootstrap_seed": 20261125,
+  "diagnostic_dirs": ["experiments/a_run/components/components"],
+  "plots": true
+}

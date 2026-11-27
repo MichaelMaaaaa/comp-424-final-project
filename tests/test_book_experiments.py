@@ -16,7 +16,7 @@ from agents.game_state import (GameState, StateTimeout, apply_move, initial_stat
                                legal_moves, terminal, to_arrays)
 from agents.symmetry import (TRANSFORMS, canonicalize, decode_book_state, encode_book_state,
                              inverse_transform_move, transform_move, transform_state)
-from book_experiments import exp05_book
+from book_experiments import analysis, exp05_book
 from book_experiments.analysis import screen_record
 from book_experiments.books import (book_table, book_variant, encode_layout, expand_entries,
                                     load_current_book, lookup, make_book, move_record, subset_book,
@@ -71,7 +71,7 @@ def analysis_record(state, move, moves_by_depth=None, analysis_id="a"):
     """Analysis record in canonical coordinates for a move given in the state's coordinates."""
     key, transform = canonicalize(state)
     rows = moves_by_depth or [move]
-    return {"analysis_id": analysis_id, "key": list(key), "value": 0,
+    return {"analysis_id": analysis_id, "key": list(key), "value": 0, "status": "completed",
             "move": move_record(transform_move(move, transform)), "completed_depth": len(rows),
             "iterations": [{"depth": d, "move": move_record(transform_move(m, transform)), "value": 0,
                             "elapsed": 0.0} for d, m in enumerate(rows, start=1)]}
@@ -251,6 +251,26 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(sum("B0" in g["pools"] for g in plan), 48)
 
 
+class AnalysisIdentityTests(unittest.TestCase):
+    def test_evaluator_selection_and_move_serialization_invalidate_cached_analysis(self):
+        dependencies = ("search_experiments/common.py", "book_experiments/books.py")
+        online = {"search": {}, "evaluation": {"evaluation_id": "E1"}}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in set(analysis.ANALYSIS_FILES).union(dependencies):
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(REPO_ROOT / name, target)
+            with patch.object(analysis, "REPO_ROOT", root):
+                for name in dependencies:
+                    with self.subTest(name=name):
+                        before = analysis.analysis_identity(online, 1.6)["analysis_id"]
+                        with (root / name).open("a") as source:
+                            source.write("\n# Changed dependency version.\n")
+                        after = analysis.analysis_identity(online, 1.6)["analysis_id"]
+                        self.assertNotEqual(before, after)
+
+
 class ScreeningTests(unittest.TestCase):
     def setUp(self):
         self.win = board_state([(0, 0, 0, 1), (0, 1, 0, 1), (0, 2, 1, 1), (2, 0, 0, 2), (2, 1, 0, 2)])
@@ -328,9 +348,12 @@ class ExportCoverageAndRankTests(unittest.TestCase):
         self.assertEqual((metrics["step_time_max"], metrics["init_time_max"], metrics["max_rss_mb"]), (0.5, 0.25, 40.0))
 
     def test_rank_uses_score_then_the_simpler_option(self):
-        summaries = {"N": {"eligible": True, "score": 0.5}, "D": {"eligible": True, "score": 0.5},
-                     "H": {"eligible": True, "score": 0.6}, "X": {"eligible": False, "score": 1.0}}
-        self.assertEqual(rank(summaries, ["N", "D", "H", "X"]), ["H", "N", "D"])
+        summaries = {"N": {"complete": True, "eligible": True, "score": 0.5},
+                     "D": {"complete": True, "eligible": True, "score": 0.5},
+                     "H": {"complete": True, "eligible": True, "score": 0.6},
+                     "X": {"complete": True, "eligible": False, "score": 1.0},
+                     "Y": {"complete": False, "eligible": True, "score": 1.0}}
+        self.assertEqual(rank(summaries, ["N", "D", "H", "X", "Y"]), ["H", "N", "D"])
 
 
 class BuildTests(unittest.TestCase):

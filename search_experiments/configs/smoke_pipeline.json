@@ -1,0 +1,16 @@
+{
+  "manifest_seed": 20261125,
+  "sample_seed": 424,
+  "match": {"max_configs": 1, "step_budget": 0.100, "max_depth": 1, "opponent_budget": 0.006},
+  "diagnostics": {"max_positions": 1, "depths": [1], "guard_seconds": 2, "online_budget": 0.100},
+  "book": {
+    "collection": {"move_time": 0.020, "opponent_budget": 0.006, "max_depth": 1,
+                   "b0_selfplay_per_config": 1, "b1_selfplay_per_config": 1, "b1_reuses_b0_selfplay": true},
+    "candidates": {"nc": 9},
+    "analysis": {"budget": 0.2, "max_depth": 1},
+    "screening": {"min_depth": 1, "stable_depths": 1},
+    "export": {"size_reference": 9, "sizes": [9]},
+    "representation": {"repeats": 1}
+  },
+  "overhead": {"repeats": 1, "max_positions": 1}
+}

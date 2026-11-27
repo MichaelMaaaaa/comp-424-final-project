@@ -16,15 +16,17 @@ from agents.evaluation import evaluate, evaluate_e0
 from agents.experiment_agent import ExperimentAgent
 from agents.game_state import (GameState, StateTimeout, apply_move, initial_state,
                                is_legal_move, legal_moves, terminal, to_arrays)
-from agents.search_engine import (SearchConfig, SearchEngine, component_configs,
-                                  default_evaluator, obstacle_stabilizers, search_key)
+from agents.move_ordering import SearchFunctions
+from agents.search_engine import (SearchConfig, SearchCounters, SearchEngine, component_configs,
+                                  obstacle_stabilizers, search_key)
 from agents.symmetry import transform_move, transform_state
 from agents.transposition_table import EXACT, LOWER, UPPER
 from baselines.ab_baseline_agent import evaluate as baseline_evaluate
+from constants import MEDIUM
 from helpers import Move
 from runners import load_agent_class
 from search_experiments.build import build_agent, build_opponent
-from search_experiments.common import (REPO_ROOT, atomic_json, digest, file_hash, read_jsonl,
+from search_experiments.common import (REPO_ROOT, append_jsonl, atomic_json, digest, file_hash, read_jsonl,
                                         normalize_variant, repair_jsonl_tail, restore_state, state_record)
 from search_experiments import exp02_search
 from search_experiments.measure import compare_performance, validation_passes
@@ -43,6 +45,33 @@ def random_state(plies=12, obstacle=(1, 1), seed=424):
 
 
 class SearchCorrectnessTests(unittest.TestCase):
+    def test_terminal_diagnostics_count_setup_and_recursive_calls(self):
+        state = initial_state()
+        for workload in ("fixed_depth", "search"):
+            with self.subTest(workload=workload):
+                checked = []
+
+                def observed_terminal(node, deadline=None):
+                    checked.append((node, deadline))
+                    return terminal(node, deadline)
+
+                def run(engine, deadline):
+                    if workload == "fixed_depth":
+                        return engine.fixed_depth(state, 1, deadline)
+                    return engine.search(state, deadline, 1)
+
+                deadline = float("inf")
+                with patch("agents.move_ordering.terminal", side_effect=observed_terminal), \
+                        patch("agents.iterative_deepening.terminal", side_effect=observed_terminal, create=True):
+                    detailed = run(SearchEngine(diagnostics=True), deadline)
+                self.assertEqual(detailed.status, "completed")
+                self.assertEqual(detailed.statistics["terminal_calls"], len(checked))
+                self.assertEqual(checked[0], (state, None if workload == "search" else deadline))
+                plain = run(SearchEngine(), deadline)
+                self.assertEqual((plain.status, plain.move, plain.value, plain.completed_depth),
+                                 (detailed.status, detailed.move, detailed.value, detailed.completed_depth))
+                self.assertEqual(plain.statistics, {"enabled": False})
+
     def test_c0_c3_and_original_agree_at_fixed_depth(self):
         for state in [initial_state((0, 0), 0), random_state(), random_state(18, (0, 1), 7)]:
             reference = SearchEngine(component_configs()["C0"]).fixed_depth(state, 2)
@@ -96,9 +125,11 @@ class SearchCorrectnessTests(unittest.TestCase):
         preferred = legal_moves(state)[-1]
         counts = []
         for early in (False, True):
-            engine = SearchEngine(SearchConfig(tt=False, preferred_first=early), diagnostics=True)
-            engine._search(state, 1, -math.inf, -1_000_000, None, preferred=preferred)
-            counts.append(engine.counters.successors)
+            counters = SearchCounters()
+            alpha_beta(state, 1, -math.inf, -1_000_000, preferred_move=preferred,
+                       config=SearchConfig(tt=False, preferred_first=early),
+                       calls=SearchFunctions(counters=counters))
+            counts.append(counters.successors)
         self.assertGreater(counts[0], 1)
         self.assertEqual(counts[1], 1)
 
@@ -124,14 +155,13 @@ class SearchCorrectnessTests(unittest.TestCase):
             engine = SearchEngine()
             key, _ = search_key(state, engine.config)
             engine.tt.store(key, 2, value, flag, legal_moves(state)[0])
-            original = engine._search
             windows = []
             def spy(node, depth, alpha, beta, *args, **kwargs):
                 if node.ply == state.ply + 1 and not windows:
                     windows.append((alpha, beta))
-                return original(node, depth, alpha, beta, *args, **kwargs)
-            with patch.object(engine, "_search", side_effect=spy):
-                result, _ = engine._search(state, 2, -1000, 1000, None)
+                return alpha_beta(node, depth, alpha, beta, *args, **kwargs)
+            with patch("agents.alpha_beta.alpha_beta", side_effect=spy):
+                result, _, _ = alpha_beta(state, 2, -1000, 1000, tt=engine.tt)
             self.assertEqual(windows[0], (-1000, 1000))
             self.assertEqual(result, 0)
 
@@ -141,7 +171,8 @@ class SearchCorrectnessTests(unittest.TestCase):
             engine = SearchEngine(diagnostics=True)
             key, _ = search_key(state, engine.config)
             engine.tt.store(key, depth, value, flag, legal_moves(state)[0])
-            score, _ = engine._search(state, depth, alpha, beta, None)
+            score, _, _ = alpha_beta(state, depth, alpha, beta, tt=engine.tt,
+                                     calls=SearchFunctions(counters=engine.counters))
             self.assertEqual(score, value)
             self.assertEqual(engine.counters.successors, 0)
             self.assertEqual(engine.counters.tt_bound_returns, 1)
@@ -160,12 +191,11 @@ class SearchCorrectnessTests(unittest.TestCase):
     def test_timeout_retains_last_complete_iteration(self):
         state = initial_state()
         engine = SearchEngine()
-        original = engine._search
         def stop_at_two(node, depth, *args, **kwargs):
-            if kwargs.get("root") and depth >= 2:
+            if depth >= 2:
                 raise StateTimeout("second iteration interrupted")
-            return original(node, depth, *args, **kwargs)
-        with patch.object(engine, "_search", side_effect=stop_at_two):
+            return alpha_beta(node, depth, *args, **kwargs)
+        with patch("agents.iterative_deepening.alpha_beta", side_effect=stop_at_two):
             result = engine.search(state, time.perf_counter() + 10, max_depth=3)
         self.assertEqual(result.completed_depth, 1)
         self.assertEqual(len(result.iterations), 1)
@@ -239,10 +269,7 @@ class KeyAndHookTests(unittest.TestCase):
             self.assertTrue(is_legal_move(other, actual.move))
             self.assertIn(actual.move, [transform_move(m, transform) for m in reference.optimal_moves])
 
-    def test_evaluator_injection_and_unknown_parameters_fail(self):
-        self.assertIs(default_evaluator({"evaluation_id": "E0"}), evaluate_e0)
-        with self.assertRaises(ValueError):
-            default_evaluator({"evaluation_id": "E1", "lambda": 5})
+    def test_evaluator_injection(self):
         state = initial_state()
         result = SearchEngine(evaluator=lambda state, player: 17).fixed_depth(state, 0)
         self.assertEqual(result.value, 17)
@@ -277,6 +304,25 @@ class KeyAndHookTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ExperimentAgent({"variant_id": "missing", "book": {"mode": "D"}})
 
+    def test_book_hint_lookup_can_finish_after_search_deadline(self):
+        state = initial_state()
+        moves = legal_moves(state)
+        now = 0
+
+        def lookup(state, moves, deadline):
+            nonlocal now
+            now = deadline
+            return {"matched": True, "preferred_move": moves[-1]}
+
+        config = {"variant_id": "late_hint", "book": {"mode": "H"}, "max_depth": 1, "telemetry": False}
+        agent = ExperimentAgent(config, book_factory=lambda config, variant: lookup)
+        with patch("time.perf_counter", side_effect=lambda: now):
+            self.assertEqual(agent.step(*to_arrays(state), 1, 2), moves[0])
+        self.assertEqual(agent.last_info["completed_depth"], 0)
+        self.assertTrue(agent.last_info["book_queried"])
+        self.assertTrue(agent.last_info["book_matched"])
+        self.assertEqual(agent.last_info["book_action"], "none")
+
     def test_original_submission_not_changed_by_builder(self):
         original_hash = file_hash(REPO_ROOT / "agents/student_agent.py")
         with tempfile.TemporaryDirectory() as tmp:
@@ -300,31 +346,39 @@ class KeyAndHookTests(unittest.TestCase):
                 self.assertEqual(int(first.rng.integers(1000000)), int(second.rng.integers(1000000)))
                 self.assertEqual(meta["opponent_rng_seed"], 1234)
 
-    def test_builder_accepts_f_evaluation_factory_and_b_book_provider(self):
+    def test_ab_opponent_build_rejects_invalid_budgets_before_replacing_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path, metadata = build_opponent("ab", Path(tmp)/"student_agent.py", budget=0)
+            meta_path = path.with_suffix(".meta.json")
+            saved = path.read_bytes(), meta_path.read_bytes()
+            state = initial_state()
+            self.assertEqual(metadata["budget"], 0)
+            self.assertEqual(load_agent_class(str(path))().step(*to_arrays(state), 1, 2), legal_moves(state)[0])
+            for budget in (False, True, "0.01", None, -1, math.nan, math.inf, -math.inf):
+                with self.subTest(budget=budget):
+                    with self.assertRaisesRegex(ValueError, "AB.*budget"):
+                        build_opponent("ab", path, budget=budget)
+                    self.assertEqual((path.read_bytes(), meta_path.read_bytes()), saved)
+            _, valid = build_opponent("ab", path, budget=3.0)
+            self.assertEqual(valid["budget"], 3.0)
+
+    def test_builder_inlines_configured_evaluation_and_book_provider(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)/"source"
             shutil.copytree(REPO_ROOT/"agents", root/"agents", ignore=shutil.ignore_patterns("__pycache__"))
-            evaluation = root/"agents/evaluation.py"
-            evaluation.write_text(evaluation.read_text() + '''\n\ndef make_evaluator(config):
-    strength = config.get("lambda", 1)
-    def configured(state, player):
-        base = evaluate_e0(state, player)
-        return base + strength * (evaluate(state, player) - base)
-    return configured
-''')
             (root/"agents/test_book.py").write_text('''def make_book_hook(book_config, variant):
     def lookup(state, moves, deadline):
         return {"matched": True, "version": "fixture", "direct_move": moves[-1]}
     return lookup
 ''')
-            variant = {"variant_id": "integration", "evaluation": {"evaluation_id": "custom", "lambda": 5},
+            variant = {"variant_id": "integration",
+                       "evaluation": {"evaluation_id": "custom", "lambda": 5, "q": [1, 50, 100]},
                        "book": {"mode": "D", "provider": "agents.test_book"}}
             path, _ = build_agent(variant, Path(tmp)/"student_agent.py", root=root)
             agent = load_agent_class(str(path))()
-            state = random_state(3)
-            self.assertEqual(agent.engine.evaluator(state, state.player),
-                             evaluate_e0(state, state.player) + 5*(evaluate(state, state.player)-evaluate_e0(state,state.player)))
-            self.assertEqual(agent.step(*to_arrays(state), 1, 2), legal_moves(replace(state, player=1))[-1])
+            state = apply_move(initial_state(), Move(None, (1, 2), MEDIUM))
+            self.assertEqual(agent.engine.fixed_depth(state, 0).value, -3250)
+            self.assertEqual(agent.step(*to_arrays(state), 2, 1), legal_moves(state)[-1])
 
     def test_local_baseline_discards_entire_obstacle_line(self):
         board, reserves = to_arrays(initial_state((0, 0)))
@@ -370,6 +424,10 @@ class HarnessTests(unittest.TestCase):
         self.assertEqual(summary["L"], 1)
         self.assertFalse(summary["eligible"])
         self.assertEqual(summary["missing_game_ids"], ["b"])
+        legacy_win = dict(row, outcome="W", score=1.0, technical_failure=False)
+        legacy = summarize_games([legacy_win], ["a"])
+        self.assertEqual((legacy["W"], legacy["score"], legacy["complete"]), (1, 1.0, True))
+        self.assertFalse(legacy["eligible"])
 
     def test_pair_difference_clusters_both_seats(self):
         old = {"complete": True, "paired_scores": {"a": 0.5, "b": 0.5}}
@@ -387,6 +445,86 @@ class HarnessTests(unittest.TestCase):
         result = sample_positions([game], seed=42)
         self.assertEqual(result["count"], 1)
         self.assertEqual(sum(row["missing"] for row in result["coverage"]), 53)
+
+    def test_sampler_reassigns_a_shared_state_to_fill_the_stratum(self):
+        row = next(row for row in validate_manifest(make_manifest(0)) if row["config_id"] == "r3c3_L")
+        self.assertEqual(row["split"], "D0")
+        prefix = (Move(None, (0, 0), 0), Move(None, (1, 0), 0), Move(None, (0, 1), 0),
+                  Move(None, (1, 2), 0), Move(None, (0, 2), 1), Move(None, (2, 2), 1),
+                  Move(None, (2, 0), 0), Move(None, (1, 3), 0), Move(None, (2, 3), 1),
+                  Move(None, (3, 1), 1))
+        state = initial_state(row["obstacle"], row["removed_size"])
+        before_moves = []
+        for move in prefix:
+            before_moves.append((state, move))
+            state = apply_move(state, move)
+        next_move = Move(None, (3, 2), 2)
+        alternative = apply_move(state, next_move)
+        early_win, later_win = Move(None, (0, 3), 2), Move(None, (1, 1), 2)
+        self.assertEqual(terminal(apply_move(state, early_win)), (True, 1, "line"))
+        self.assertEqual(terminal(apply_move(alternative, later_win)), (True, 2, "line"))
+
+        def game(seat, ending):
+            turns = [{"state": state_record(before), "ply": before.ply,
+                      "move": {"src": move.src, "dest": move.dest, "size": move.size},
+                      "actor_role": "candidate" if before.player == seat else "opponent"}
+                     for before, move in [*before_moves, *ending]]
+            return dict(row, status="adjudicated", variant_id="S0", game_id=f"S0__r3c3_L__P{seat}",
+                        candidate_seat=seat, turns=turns)
+
+        long_game = game(1, [(state, next_move), (alternative, later_win)])
+        short_game = game(2, [(state, early_win)])
+        both_short = game(1, [(state, early_win)])
+        records = [long_game, short_game]
+        for label, games, selected in (("feasible", records, 2),
+                                      ("insufficient", [both_short, short_game, short_game], 1)):
+            with self.subTest(case=label):
+                sampled = sample_positions(games, seed=5)
+                self.assertEqual(sampled, sample_positions(games, seed=5))
+                middle = next(c for c in sampled["coverage"] if c["stage"] == "middle"
+                              and c["removed_size"] == 2 and c["obstacle_class"] == "corner")
+                self.assertEqual((middle["available_games"], middle["selected"], middle["missing"]),
+                                 (2, selected, 2 - selected))
+                actual = {p["source_game"]: p["state"]["ply"] for p in sampled["positions"]
+                          if p["stage"] == "middle"}
+                if label == "feasible":
+                    self.assertEqual(actual, {"S0__r3c3_L__P1": 11, "S0__r3c3_L__P2": 10})
+                else:
+                    self.assertEqual(list(actual.values()), [10])
+                self.assertEqual(len({digest(p["state"]) for p in sampled["positions"]}), sampled["count"])
+        self.assertEqual(sample_positions(records, seed=5, per_group=0)["count"], 0)
+
+    def test_interrupted_tail_repair_preserves_flushed_records_for_retry(self):
+        records = [{"complete": 1}, {"complete": 2}]
+        original_open = Path.open
+
+        def interrupted_open(target, mode="r", *args, **kwargs):
+            stream = original_open(target, mode, *args, **kwargs)
+            if target == path and any(flag in mode for flag in "wa+"):
+                stream.close()
+                raise KeyboardInterrupt
+            return stream
+
+        with tempfile.TemporaryDirectory() as tmp:
+            for label in ("partial_row", "missing_newline"):
+                with self.subTest(tail=label):
+                    path = Path(tmp)/f"{label}.jsonl"
+                    for row in records:
+                        append_jsonl(path, row)
+                    complete = path.read_bytes()
+                    if label == "partial_row":
+                        with path.open("ab") as stream:
+                            stream.write(b'{"incomplete":')
+                    else:
+                        with path.open("r+b") as stream:
+                            stream.truncate(len(complete) - 1)
+                    before = path.read_bytes()
+                    with patch.object(Path, "open", interrupted_open), self.assertRaises(KeyboardInterrupt):
+                        repair_jsonl_tail(path)
+                    self.assertEqual(path.read_bytes(), before)
+                    self.assertEqual(read_jsonl(path), records)
+                    repair_jsonl_tail(path)
+                    self.assertEqual(path.read_bytes(), complete)
 
     def test_truncated_log_tail_can_resume_without_losing_complete_rows(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -409,7 +547,7 @@ class HarnessTests(unittest.TestCase):
         position = {"position_id": "fixture", "state": state_record(initial_state()), "split": "D0"}
         payload = {"positions_hash": digest([position]), "execution_tier": "formal", "reference_complete": True}
         results = [False, True, False, False]
-        def performance(records, parent, candidate):
+        def performance(records, parent, candidate, baseline=None):
             return {"retain_candidate": results.pop(0), "budget_valid": True}
         with tempfile.TemporaryDirectory() as tmp:
             with patch.object(exp02_search, "load_positions", return_value=([position],payload)), \

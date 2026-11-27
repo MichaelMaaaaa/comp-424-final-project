@@ -1,0 +1,21 @@
+{
+  "search_selection": "experiments/a_run/search/search_selection.json",
+  "evaluation_selection": "experiments/f_run/evaluation/evaluation_selection.json",
+  "manifest": "experiments/a_run/prepare/manifest.json",
+  "positions": "experiments/a_run/prepare/positions.json",
+  "depths": [2, 3],
+  "guard_seconds": 60,
+  "online_budget": 1.6,
+  "opponent": {"kind": "ab", "budget": 1.5},
+  "reuse_paths": [],
+  "smoke": {
+    "max_configs": 1,
+    "max_positions": 1,
+    "depths": [1],
+    "guard_seconds": 2,
+    "online_budget": 0.03,
+    "step_budget": 0.012,
+    "opponent_budget": 0.006,
+    "max_depth": 2
+  }
+}
