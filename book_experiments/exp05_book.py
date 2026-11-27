@@ -6,6 +6,7 @@ execution_tier=smoke and are never a formal selection.
 """
 
 import argparse
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -14,11 +15,14 @@ from book_experiments.books import (book_entries, book_table, book_variant, chec
                                     make_book, save_book, subset_book)
 from book_experiments.candidates import build_pool, select_candidates, stage_distribution
 from book_experiments.collect import run_collection
-from book_experiments.common import (code_identity, games_of, load_online, manifest_rows, opponent,
-                                     rank, reference_games)
+from book_experiments.common import (games_of, handoff_identity, load_online, manifest_rows, opponent,
+                                     positive_integer, rank, reference_games, selected_book_descriptor,
+                                     validate_match_evidence)
 from book_experiments.coverage import game_metrics, replay_coverage
 from book_experiments.representation import compare_representations
-from search_experiments.common import SCHEMA_VERSION, atomic_json, load_json, restore_move
+from search_experiments.common import (SCHEMA_VERSION, atomic_json, file_hash, load_json, normalize_variant,
+                                       restore_move)
+from search_experiments.development import bind_request
 from search_experiments.runner import run_pairs
 
 SCHEMES = ("B0", "B1", "B2")
@@ -72,8 +76,14 @@ def export_books(selected, records, screening, label, size, output):
 
 
 def play_book(online, record, rows, output, opp, tier):
-    summary = run_pairs(book_variant(online, record, "D"), rows, output, opponent=opp, execution_tier=tier)
-    return summary, game_metrics(games_of(summary, output))
+    variant = normalize_variant(book_variant(online, record, "D"))
+    summary = run_pairs(variant, rows, output, opponent=opp, execution_tier=tier)
+    if summary["complete"] and summary["eligible"]:
+        records, evidence = validate_match_evidence(output / "games.jsonl", variant, rows, opp, tier)
+        summary = evidence["summary"]
+    else:
+        records = games_of(summary, output)
+    return summary, game_metrics(records)
 
 
 def _brief(summary):
@@ -81,25 +91,67 @@ def _brief(summary):
     return {key: summary.get(key) for key in keys}
 
 
+def _publish(output, report, selection, status, reason=None, **outcome):
+    formal = selection["execution_tier"] == "formal" and status in ("selected", "no_common_book")
+    state = {"status": status, "formal_selection": formal, "reason": reason}
+    result = {**selection, **state, **outcome}
+    if not outcome:
+        atomic_json(output / "selected_book.json", result)
+    atomic_json(output / "book_summary.json", dict(report, **state))
+    if outcome:
+        atomic_json(output / "selected_book.json", result)
+    return result
+
+
 def run(config, output, smoke=False):
-    output = Path(output)
-    output.mkdir(parents=True, exist_ok=True)
+    output = Path(output).resolve()
     tier = "smoke" if smoke else "formal"
     online = load_online(config, smoke)
     d0, d1 = manifest_rows(config, "D0", smoke), manifest_rows(config, "D1", smoke)
-    references, reference_check = reference_games(config["d1_reference_games"], online)
-    if not smoke and any(r.get("execution_tier") != "formal" for r in references):
-        raise ValueError("a formal step 5 needs formal D1 reference games")
-    # Smoke books get their own module names, so they can never replace a formal provider.
+    references, reference_check = reference_games(config["d1_reference_games"], online, config, smoke)
+    # Distinct smoke provider names keep diagnostic books separate from formal providers.
     label = check_label(config.get("smoke", {}).get("book_label", "smoke") if smoke
                         else config.get("book_label", "formal"))
-    identity = code_identity()
     opp = opponent(config, smoke)
     settings = {name: section(config, name, smoke) for name in DEFAULTS}
-    report = {"schema": SCHEMA_VERSION, "execution_tier": tier, "formal_selection": not smoke,
-              "online_variant_id": online["variant_id"], "online_config_hash": online["config_hash"],
-              "code_hash": identity["code_hash"], "settings": settings, "opponent": opp,
-              "reference_games": str(config["d1_reference_games"]), "reference_check": reference_check}
+    positive_integer(settings["candidates"]["nc"], "candidate count")
+    positive_integer(settings["export"]["size_reference"], "reference export size")
+    for size in settings["export"]["sizes"]:
+        positive_integer(size, "export size")
+    analysis = settings["analysis"]
+    budget = analysis["budget"]
+    if type(budget) not in (int, float) or not 0 < budget < math.inf:
+        raise ValueError("offline analysis budget must be a finite positive number")
+    if not smoke and budget > 10:
+        raise ValueError("formal offline analysis budget must be at most 10 seconds")
+    if analysis["max_depth"] is not None:
+        positive_integer(analysis["max_depth"], "offline analysis max_depth")
+    collection = settings["collection"]
+    if not smoke and (collection["move_time"] != 1.6 or collection["opponent_budget"] != 1.5):
+        raise ValueError("formal collection requires 1.6 second candidate and 1.5 second AB budgets")
+
+    identity = handoff_identity(config, online, tier, opp, d1[0]["manifest_hash"])
+    manifest = Path(config["manifest"]).resolve()
+    bind_request(output, {"stage": "book", **identity, "settings": settings, "book_label": label,
+                          "manifest_path": str(manifest), "manifest_file_hash": file_hash(manifest),
+                          "d0": d0, "d1_reference": reference_check})
+    report = {"schema": SCHEMA_VERSION, **identity, "settings": settings,
+              "online_variant_id": online["variant_id"], "reference_games": reference_check["games_path"],
+              "reference_check": reference_check}
+    selection = {"schema": SCHEMA_VERSION, **identity, "K": None, "selected_book": None, "variant_D": None,
+                 "d1_reference": reference_check, "reference_games": reference_check["games_path"]}
+    try:
+        _publish(output, report, selection, "pending", "book_started")
+        return _run(output, report, selection, online, d0, d1, references, settings, label, opp, tier)
+    except (KeyboardInterrupt, SystemExit):
+        _publish(output, report, selection, "pending", "book_interrupted")
+        raise
+    except Exception as error:
+        _publish(output, report, selection, "blocked", f"{type(error).__name__}: {error}")
+        raise
+
+
+def _run(output, report, selection, online, d0, d1, references, settings, label, opp, tier):
     repeats = settings["representation"]["repeats"]
 
     # 5A baseline on the book currently embedded in the original submission.
@@ -109,10 +161,10 @@ def run(config, output, smoke=False):
 
     # 5B.1 collection on D0, then 5B.2 candidate pools and the common Nc.
     games, collection_cost = run_collection(d0, online, settings["collection"], output / "collection",
-                                            identity["code_hash"])
+                                            selection["book_code_hash"])
     report["collection"] = collection_cost
     if not collection_cost["complete"]:
-        raise RuntimeError("collection is incomplete; rerun the same command to resume")
+        return _publish(output, report, selection, "pending", "collection_incomplete")
     pools = {"B0": build_pool(games, "B0"), "B1": build_pool(games, "B1")}
     selected, candidate_summary = select_candidates(pools, settings["candidates"]["nc"])
     report["candidates"] = candidate_summary
@@ -122,6 +174,8 @@ def run(config, output, smoke=False):
     analysis = analysis_identity(online, settings["analysis"]["budget"], settings["analysis"]["max_depth"])
     keys = {tuple(c["key"]) for rows in selected.values() for c in rows}
     records = analyze_candidates(keys, online, analysis, output / "analysis")
+    if keys - records.keys():
+        return _publish(output, report, selection, "pending", "analysis_incomplete")
     nc = candidate_summary["nc"]
     report["analysis"] = {"analysis_id": analysis["analysis_id"], "identity": analysis,
                           "distinct_keys": len(keys),
@@ -135,6 +189,9 @@ def run(config, output, smoke=False):
                                   screen["stable_depths"]) for k in keys}
     atomic_json(output / "screening.json", {"version": SCREEN_VERSION, "settings": screen,
                 "decisions": [dict(screening[k], key=list(k)) for k in sorted(keys)]})
+    invalid_analysis = {"version_mismatch", "invalid_state", "terminal_state", "illegal_move", "invalid_analysis"}
+    if any(tuple(records[key]["key"]) != key or screening[key]["reason"] in invalid_analysis for key in keys):
+        return _publish(output, report, selection, "blocked", "invalid_analysis")
     accepted = {s: sum(screening[tuple(c["key"])]["accepted"] for c in selected[s]) for s in SCHEMES}
     report["screening"] = {"version": SCREEN_VERSION, "accepted": accepted,
                            "reasons": {s: dict(Counter(screening[tuple(c["key"])]["reason"] for c in selected[s]))
@@ -143,14 +200,8 @@ def run(config, output, smoke=False):
     # 5C.2 a common entry count K for the three books.
     size = min(settings["export"]["size_reference"], *accepted.values())
     report["K"] = size
-    selection = {"schema": SCHEMA_VERSION, "execution_tier": tier, "formal_selection": not smoke,
-                 "online_variant": online, "K": size, "selected_book": None, "mode_if_no_book": "N"}
     if size == 0:
-        selection["status"] = "no_common_book"
-        report["status"] = "no_common_book"
-        atomic_json(output / "book_summary.json", report)
-        atomic_json(output / "selected_book.json", selection)
-        return selection
+        return _publish(output, report, selection, "no_common_book", K=0, mode_if_no_book="N")
     books, export = export_books(selected, records, screening, label, size, output)
     report["export"] = export
 
@@ -163,12 +214,10 @@ def run(config, output, smoke=False):
     order = rank(sources, list(SCHEMES))
     report["source_games"] = {s: dict(_brief(sources[s]), metrics=source_metrics[s]) for s in SCHEMES}
     report["source_ranking"] = order
+    if not all(summary.get("complete") for summary in sources.values()):
+        return _publish(output, report, selection, "pending", "source_comparison_incomplete")
     if not order:
-        report["status"] = "blocked_technical_failure"
-        selection["status"] = "blocked_technical_failure"
-        atomic_json(output / "book_summary.json", report)
-        atomic_json(output / "selected_book.json", selection)
-        return selection
+        return _publish(output, report, selection, "blocked", "no_eligible_source")
     winner = order[0]
     second = order[1] if len(order) > 1 else None
     tie = second is not None and sources[winner]["score"] == sources[second]["score"]
@@ -193,44 +242,39 @@ def run(config, output, smoke=False):
         if n not in size_summaries:
             size_paths[n] = output / "games" / f"size_{winner}_k{n}"
             size_summaries[n], size_metrics[n] = play_book(online, candidates[n], d1, size_paths[n], opp, tier)
-    size_order = sorted((n for n in kept if size_summaries[n].get("eligible")),
-                        key=lambda n: (-size_summaries[n]["score"], n))
+    size_order = rank(size_summaries, kept)
     report["size_coverage"] = {str(n): coverage[n] for n in sizes}
     report["sizes_with_new_coverage"] = kept
     report["size_games"] = {str(n): dict(_brief(size_summaries[n]), metrics=size_metrics[n]) for n in kept}
+    if not all(size_summaries[n].get("complete") for n in kept):
+        return _publish(output, report, selection, "pending", "size_comparison_incomplete")
     if not size_order:
-        report["status"] = "blocked_technical_failure"
-        selection["status"] = "blocked_technical_failure"
-        atomic_json(output / "book_summary.json", report)
-        atomic_json(output / "selected_book.json", selection)
-        return selection
+        return _publish(output, report, selection, "blocked", "no_eligible_size")
     k_star = size_order[0]
     chosen = candidates[k_star]
     chosen_file = output / "books" / f"{winner}_k{k_star}.json"
 
     # 6.1 step 3 may compare the runner-up source under H at k*, so export it now.
-    second_file = None
+    second_descriptor = None
     if tie:
         second_book = books[second] if k_star == size else subset_book(
             books[second], k_star, f"{label}_{second.lower()}_k{k_star}")
         second_file = output / "books" / f"{second}_k{k_star}.json"
         save_book(second_book, second_file)
+        _, second_descriptor = selected_book_descriptor(second_file, online, second, size, k_star)
 
     # 5A again on the selected book: same entries and moves, only the representation changes.
     report["representation_selected"] = compare_representations(
         book_entries(chosen), output / "representation" / "selected", repeats, chosen["label"])
-    selection.update(status="selected", source=winner, second_source=second, source_tie=tie,
-                     k_star=k_star, book_file=str(chosen_file), label=chosen["label"],
-                     provider=chosen["provider"], hash=chosen["layout"]["hash"],
-                     version=chosen["layout"]["version"], entries=chosen["layout"]["entries"],
-                     variant_D=book_variant(online, chosen, "D"), d_games=str(size_paths[k_star] / "games.jsonl"),
-                     second_source_book_file=None if second_file is None else str(second_file),
-                     reference_games=str(config["d1_reference_games"]))
-    report.update(status="selected", source=winner, second_source=second, source_tie=tie, k_star=k_star,
-                  selected_book_file=str(chosen_file))
-    atomic_json(output / "book_summary.json", report)
-    atomic_json(output / "selected_book.json", selection)
-    return selection
+    _, descriptor = selected_book_descriptor(chosen_file, online, winner, size, k_star)
+    report.update(source=winner, second_source=second, source_tie=tie, k_star=k_star,
+                  selected_book_file=descriptor["book_file"])
+    outcome = dict(descriptor, selected_book=descriptor, second_source=second, source_tie=tie,
+                   d_games=str(size_paths[k_star] / "games.jsonl"),
+                   second_source_book=second_descriptor,
+                   second_source_book_file=second_descriptor["book_file"] if tie else None)
+    outcome.pop("status")
+    return _publish(output, report, selection, "selected", **outcome)
 
 
 def main():

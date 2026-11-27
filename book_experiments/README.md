@@ -30,13 +30,13 @@ python -m unittest tests.test_book_experiments -v
 python -m book_experiments.self_test --output experiments/b_smoke
 ```
 
-第二条依次运行：B 的单元测试；A 的 `exp00_prepare --smoke`（得到 manifest 和固定局面）；用模板线上配置 `search_experiments/configs/variant.json` 在 1 个 D1 配置上跑 smoke 无 book 双座对局，代替 F 第 4 步的 D1 轨迹；第 5 步 smoke；同一命令重跑并确认采集对局和分析记录不重复执行；第 6 步 smoke；对选定 book 的 D 变体和最终变体分别构建单文件并通过官方 `validate_submission.py`；确认原始 `student_agent.py` 未改变。smoke 只缩小预算和数量（每步 0.012 秒、深度 2、Nc=12、分析 0.3 秒、规模 3/6），并把筛选最低深度降为 1，仅用于走通所有分支。
+第二条依次运行：B 的单元测试；A 的 `exp00_prepare --smoke`（得到 manifest 和固定局面）；按第 4 步的格式冻结 smoke 线上配置，再在 1 个 D1 配置上跑 smoke 无 book 双座对局，代替 F 第 4 步的 D1 轨迹；第 5 步 smoke；同一命令重跑并确认采集对局和分析记录不重复执行；第 6 步 smoke；对选定 book 的 D 变体和最终变体分别构建单文件并通过官方 `validate_submission.py`；确认原始 `student_agent.py` 未改变。smoke 只缩小预算和数量（每步 0.012 秒、深度 2、Nc=12、分析 0.3 秒、规模 3/6），并把筛选最低深度降为 1，仅用于走通所有分支。
 
 `experiments/b_examples/` 是本次实际执行的自测记录（`SELF_TEST_SUMMARY.json`、文本日志、JSON 输出）；逐局生成的代理副本和对手副本可重建，未提交。
 
 ## F 正式运行
 
-前置输出：A 第 0 步的 `manifest.json`、`positions.json`；F 第 4 步固定的线上配置（无 book 的 variant JSON，格式同 `search_experiments/configs/variant.json`，也可为 `{"variant": {...}}`）以及 D1 无 book 双座 24 局（`run_pairs` 输出目录，含 `plan.json` 与 `games.jsonl`）。路径写在配置中，也可用命令行覆盖：
+正式运行使用 A 第 0 步的 `manifest.json`、`positions.json`，以及 F 第 4 步成功选定的 `online_config.json` 和 D1 无 book 双座 24 局。D1 输出目录须保留同次 `run_pairs` 产生的 `plan.json`、`games.jsonl` 和 `summary.json`。路径写在配置中，也可用命令行覆盖。
 
 ```bash
 python -m book_experiments.exp05_book --config book_experiments/configs/book.json --output experiments/b_run/book \
@@ -49,28 +49,28 @@ python -m book_experiments.exp06_book_mode --config book_experiments/configs/boo
 python -m search_experiments.build --config experiments/b_run/book_mode/final_variant.json --output experiments/b_run/final
 ```
 
-搜索与评价参数只从线上配置读取（`search`、`evaluation` 传给 A 的 `SearchEngine` 和 F 的 `make_evaluator`），B 的代码不固定任何搜索或评价参数。D1 轨迹的 `plan.json` 会被核对：搜索、评价、步预算、深度上限和 book 模式必须与线上配置一致。两个入口都可中断后用同一命令续跑；代码、配置或机器变化时拒绝续跑，请换输出目录。
+搜索与评价参数只从线上配置读取（`search`、`evaluation` 传给 A 的 `SearchEngine` 和 F 的 `make_evaluator`），B 的代码不固定任何搜索或评价参数。两个入口都核对第 4 步的执行级别、代码、名单及完整 N 配置，并核对 D1 的计划、逐局配对与汇总。正式对局使用当前名单中的 12 个 D1 配置及两个座位。smoke 使用同级别的上游输出、冻结的步预算和深度，以及配置中指定的正整数 `max_configs` 子集。中断后可用同一请求续跑。代码、配置、输入文件或机器变化时须换输出目录。
 
 ## 第 5 步做什么
 
 1. **5A 基准**：用原始 `student_agent.py` 中的 486 条 book 建立表示基准（结束时对选定 book 再测一次）。三组单项比较都以 D4 + 15 字节键 + zlib 为基准：展开全部方位 / D4（条目数、大小、查询时间）；tuple 键 / 紧凑键（建键与查询时间、解码后内存）；不压缩 / zlib（初始化、大小、解码后内存）。展开时每个实际状态都重新调用同一个归一化函数并逆变换推荐动作，因此自对称状态也得到与 D4 查询相同的动作；任一表示改变返回动作即报错。
 2. **5B.1 采集**（只用 D0）：己方用线上配置、无 book、每步 1.6 秒，完整窗口收集最后完整深度的精确同分集合后按每局 `collection_seed` 选择；未完成的深度不提供同分集合。B0 每配置 4 场自我对弈；B1 每配置 2 场自我对弈、1 场 greedy、1 场本地 AB（1.5 秒），greedy 与 AB 的己方座位相反并按名单顺序轮换，12 个配置各 6/6。默认 `b1_reuses_b0_selfplay=true`：B1 的自我对弈就是 B0 每配置的前 2 场，使 B1−B0 只差“24 场自我对弈换成 24 场对手局”，并省去约 1 小时重复采集；设为 `false` 则另采 24 场。
 3. **5B.2 候选**：行动前完整非终局状态按 D4 key 去重，频次为整个池中的出现次数；三池均含九个初始状态并计数。Nc 默认 600，不足时统一降到共同可用数。B0/B1 按 ply 升序、频次降序、key 升序取前 Nc；B2 复用 B1 的池，按早/中/后（0–9 / 10–29 / 30–99）均分配额，余数依次给早、中；阶段内频次降序、ply 升序、key 升序；初始状态先占早期名额，早期配额不足 9 时先保留初始状态再按早→中→后轮换补满；某阶段不足时从其他阶段按同一轮换补齐；保存实际阶段分布。
-4. **5B.3 分析**：三组候选的并集中每个 key 只分析一次，10 秒预算从解码前开始计时；记录每个完成深度的动作、分值、耗时及终止原因（deadline、solved_remaining、max_depth）。记录带 `analysis_id`（搜索、评价、规则、预算及相关源文件 hash），只复用完全相同的记录。报告各组逻辑预算 Nc×10 秒、去重后实际计算时间和采集成本。
+4. **5B.3 分析**：三组候选的并集中每个 key 只分析一次，从解码前开始计时。每个候选的预算必须是有限正数，正式运行默认且最多 10 秒。`analysis.max_depth` 可为空或正整数。记录每个完成深度的动作、分值、耗时及终止原因（deadline、solved_remaining、max_depth）。记录带 `analysis_id`（搜索、评价、规则、预算及相关源文件 hash），只复用完全相同的记录。报告各组逻辑预算 Nc×每个候选的预算、去重后实际计算时间和采集成本。
 5. **5C.1 筛选**：版本、解码、合法性；立即获胜直接保留；其余须完成至少 3 层、最后 2 层推荐同一动作、不立即自败（揭开对手连线）、对手下一步不能直接获胜。每个 key 记录接受或拒绝原因。
-6. **5C.2 共同条目数**：K = min(486, a0, a1, a2)。每组先放通过筛选的初始状态，再按本池频次降序、完成深度降序、key 升序取前 K 条；保存“候选→通过→导出”数量和阶段分布。K=0 时输出 `selected_book=null`，跳过来源、规模及使用方式比较，第 6 步只保留 N。
+6. **5C.2 共同条目数**：K = min(486, a0, a1, a2)。每组先放通过筛选的初始状态，再按本池频次降序、完成深度降序、key 升序取前 K 条；保存“候选→通过→导出”数量和阶段分布。只有通过筛选后的共同条目数为 0 才输出 `status=no_common_book`、`K=0` 和 `selected_book=null`，第 6 步据此只保留 N。采集或必要对局未完成时输出 `pending`。分析无效或没有合格候选时输出 `blocked`。
 7. **5C.3 来源**：三本 book 回放 F 的同一份 D1 无 book 轨迹（可查询状态、匹配数、按阶段和障碍类别分布；只有一个合法动作的回合不查询，不计入）；再各以 D 模式在 D1 对本地 AB 跑 24 局。按统一规则（完整且无技术失败 → 得分 → 同分取表中靠前、较简单的 B0、B1、B2）选出来源并保存第二名。
-8. **5C.4 规模**：从胜出来源的同一导出顺序取 min(128,K)、min(256,K)、K 的嵌套子集（重复只留一次）；先回放，与上一保留规模覆盖相同的较大规模直接舍弃，其余规模在 D1 以 D 模式跑 24 局（K 复用 5C.3 结果），同分取较小 book。若前两名来源同分，同时导出第二名来源的 k* 条 book 供第 6 步使用。
+8. **5C.4 规模**：从胜出来源的同一导出顺序取 min(128,K)、min(256,K)、K 的嵌套子集（重复只留一次）；先回放，与上一保留规模覆盖相同的较大规模直接舍弃，其余规模在 D1 以 D 模式跑 24 局（K 复用 5C.3 结果），同分取较小 book。若前两名来源同分，同时导出第二名来源的 k* 条 book。第 5 步在 `second_source_book` 中保存与主 book 相同格式的描述（含整个 JSON 的 SHA-256 和规范化的 D 配置）。第 6、7 步都按此描述核对第二份导出；未同分时该字段为 null。
 
 “发现具体问题后才追加的比较”不自动运行；需要时修改配置中的 `screening.min_depth`、`screening.stable_depths`、`analysis.budget` 或 `candidates.nc`，用新的输出目录重跑。
 
 ## 第 6 步做什么
 
-1. 读取第 5 步的 book 文件（核对 hash，必要时重建 provider 模块），D/H 使用完全相同的 book 字节。N 不查询 book；D 命中且合法时直接返回；H 只把合法 book 动作作为第一次迭代的根 preferred，后续迭代使用上一完整迭代的最佳动作。book 不写入 TT。
+1. 读取第 5 步选定的 book 文件（核对 hash、内容版本、条目数，必要时重建 provider 模块），D/H 使用完全相同的 book 字节。N 不查询 book；D 命中且合法时直接返回；H 只把合法 book 动作作为第一次迭代的根 preferred，后续迭代使用上一完整迭代的最佳动作。book 不写入 TT。
 2. 在 D1 对本地 AB 各跑 24 局；N 复用 F 的 D1 无 book 对局，D 复用第 5 步同一 book 的 D 模式对局（A 的运行器逐项核对 code/config/book hash、种子、机器等，完全相同才复用）。
 3. 保留 N 及 D/H 中 D1 得分较高者（同分都保留），在 D0∪D1 补齐 48 局后按统一规则选择提交模式（同分依次优先 N、D、H）。若 H 胜出且第 5 步来源前两名同分，在 H 下比较第二名来源的 k* 条 book；若更好则先补齐其开发集再重新排序。
-4. 6.2 指标：命中率 = 匹配次数 / 实际查询次数、至少命中一次的对局比例、匹配/直接返回/排序提示按阶段统计、搜索深度（book 返回或唯一合法动作记 N/A，进入搜索但第一层未完成记 0）、裁判记录的整步耗时、初始化和内存。另取对该 book 全部未命中的固定开发局面，用 A 的 `measure_online_step` 交替比较“开启查询但全部未命中”（D）与“完全关闭查询”（N），单列纯查询耗时和整步完成深度。
-5. 输出 `final_config.json`、`final_variant.json`（可直接交给 A 的构建器）；若选 N，另存 `book_comparison_variant.json` 作为第 7 步 V3 的有 book 对照。
+4. 6.2 指标：命中率 = 匹配次数 / 实际查询次数、至少命中一次的对局比例、匹配/直接返回/排序提示按阶段统计、搜索深度（book 返回或唯一合法动作记 N/A，进入搜索但第一层未完成记 0）、裁判记录的整步耗时、初始化和内存。先用完整 D0/D1 名单核对固定局面的配置编号、分组、障碍位置及两方各尺寸棋子总数。另取对该 book 全部未命中的固定开发局面，用 A 的 `measure_online_step` 交替比较“开启查询但全部未命中”（D）与“完全关闭查询”（N），单列纯查询耗时和整步完成深度。
+5. 成功时输出 `final_config.json` 和可交给 A 构建器的 `final_variant.json`。有 book 时若 N 胜出，则从已通过完整开发集的候选中选出 V3 对照，另存 `book_comparison_variant.json`。若缺少合格对照则输出 `blocked`。合法的 K=0 决策输出 `N_only`，省略 V3。完整开发集证据与 D1 来源记录在 `final_config.json`，含计划、原始逐局记录、摘要的路径和文件 hash。`pending` 或 `blocked` 不发布可用的提交或对照配置。
 
 ## Book 接口
 

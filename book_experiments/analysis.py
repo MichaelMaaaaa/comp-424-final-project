@@ -22,7 +22,9 @@ SCREEN_VERSION = "b-screen-v1"
 RULES = {"allow_moves": True, "win_length": 4, "max_plies": MAX_PLIES}
 ANALYSIS_FILES = ("agents/search_engine.py", "agents/evaluation.py", "agents/game_state.py",
                   "agents/symmetry.py", "agents/transposition_table.py", "constants.py", "helpers.py",
-                  "book_experiments/analysis.py")
+                  "agents/alpha_beta.py", "agents/move_ordering.py", "agents/iterative_deepening.py",
+                  "search_experiments/common.py", "book_experiments/books.py",
+                  "book_experiments/collect.py", "book_experiments/analysis.py")
 
 
 def analysis_identity(online, budget, max_depth=None):
@@ -99,12 +101,21 @@ def screen_record(record, analysis_id, min_depth=3, stable_depths=2):
         move = None
     if move is None or move not in moves:
         return _decision(False, "illegal_move")
-    rows = record.get("iterations") or []
+    rows = record.get("iterations")
     depth = record.get("completed_depth")
-    if not isinstance(depth, int) or depth < 1:
+    if type(depth) is not int or depth < 0 or not isinstance(rows, list):
+        return _decision(False, "invalid_analysis")
+    if record.get("status") != ("completed" if depth else "fallback") or len(rows) != depth:
+        return _decision(False, "invalid_analysis")
+    if depth == 0:
         return _decision(False, "no_completed_depth")
-    if (len(rows) != depth or [r["depth"] for r in rows] != list(range(1, depth + 1))
-            or restore_move(rows[-1]["move"]) != move):
+    try:
+        depths = [row["depth"] for row in rows]
+        recommendations = [restore_move(row["move"]) for row in rows]
+    except (KeyError, TypeError, ValueError):
+        return _decision(False, "invalid_analysis")
+    if (any(type(d) is not int or d != i for i, d in enumerate(depths, 1))
+            or any(recommendation not in moves for recommendation in recommendations) or recommendations[-1] != move):
         return _decision(False, "invalid_analysis")
     child = apply_move(state, move)
     finished, winner, _ = terminal(child)
@@ -115,7 +126,7 @@ def screen_record(record, analysis_id, min_depth=3, stable_depths=2):
         return _decision(False, "immediate_loss")
     if depth < min_depth:
         return _decision(False, "insufficient_depth")
-    if len({restore_move(r["move"]) for r in rows[-stable_depths:]}) != 1:
+    if len(set(recommendations[-stable_depths:])) != 1:
         return _decision(False, "unstable_move")
     if not finished:
         for reply in legal_moves(child):

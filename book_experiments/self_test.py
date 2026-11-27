@@ -12,7 +12,8 @@ import sys
 from book_experiments.books import book_variant, load_book
 from book_experiments.common import load_online, manifest_rows, opponent
 from search_experiments.build import build_agent
-from search_experiments.common import REPO_ROOT, atomic_json, file_hash, load_json, machine_info, run_command
+from search_experiments.common import REPO_ROOT, atomic_json, code_manifest, file_hash, load_json, machine_info, run_command
+from search_experiments.development import effective_search_variant, match_settings
 from search_experiments.runner import run_pairs
 
 ONLINE_TEMPLATE = "search_experiments/configs/variant.json"
@@ -23,9 +24,6 @@ def main():
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     output = Path(args.output).resolve()
-    if output.is_relative_to(REPO_ROOT):
-        # Relative paths keep machine-specific folders out of the recorded outputs.
-        output = output.relative_to(REPO_ROOT)
     output.mkdir(parents=True, exist_ok=True)
     before = file_hash(REPO_ROOT / "agents/student_agent.py")
     print("Running unit_tests.txt", flush=True)
@@ -36,15 +34,22 @@ def main():
                 output / "prepare.txt")
 
     book_config = load_json(REPO_ROOT / "book_experiments/configs/book.json")
-    book_config.update(online_config=ONLINE_TEMPLATE, manifest=str(output / "prepare/manifest.json"))
+    manifest_path = output / "prepare/manifest.json"
+    online_path = output / "online_config.json"
+    tier, _, settings = match_settings(book_config, smoke=True)
+    variant = effective_search_variant(load_json(REPO_ROOT / ONLINE_TEMPLATE), settings)
+    atomic_json(online_path, {"status": "smoke_only", "execution_tier": tier, "formal_selection": False,
+                              "code_hash": code_manifest()["code_hash"], "variant": variant,
+                              "manifest_hash": load_json(manifest_path)["manifest_hash"]})
+    book_config.update(online_config=online_path, manifest=manifest_path)
     online = load_online(book_config, smoke=True)
     print("Running a smoke D1 no-book reference in place of F's step 4", flush=True)
     reference = run_pairs(online, manifest_rows(book_config, "D1", True), output / "d1_reference",
                           opponent=opponent(book_config, True), execution_tier="smoke")
-    if not reference["complete"]:
+    if not reference["complete"] or not reference["eligible"]:
         raise AssertionError("smoke D1 reference games did not finish")
 
-    common = ["--online-config", ONLINE_TEMPLATE, "--manifest", str(output / "prepare/manifest.json"),
+    common = ["--online-config", str(online_path), "--manifest", str(manifest_path),
               "--references", str(output / "d1_reference/games.jsonl"), "--smoke"]
     step5 = [sys.executable, "-m", "book_experiments.exp05_book", "--config", "book_experiments/configs/book.json",
              "--output", str(output / "book")] + common
@@ -87,18 +92,7 @@ def main():
                "formal_book_selected": False,
                "note": "B's code handoff and small tests only; F runs the full formal 0-8 sequence."}
     atomic_json(output / "SELF_TEST_SUMMARY.json", summary)
-    scrub_paths(output)
     print("SELF TEST: PASS", flush=True)
-
-
-def scrub_paths(output):
-    """Record paths relative to the repository root in the text outputs."""
-    prefix = str(REPO_ROOT) + "/"
-    for path in Path(output).rglob("*"):
-        if path.is_file() and path.suffix in (".json", ".jsonl", ".txt", ".csv"):
-            text = path.read_text(encoding="utf-8", errors="strict")
-            if prefix in text:
-                path.write_text(text.replace(prefix, ""), encoding="utf-8")
 
 
 if __name__ == "__main__":

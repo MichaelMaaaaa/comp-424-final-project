@@ -21,8 +21,10 @@ from search_experiments.common import (append_jsonl, atomic_json, digest, load_j
 
 
 def online_engine(online, evaluator=None):
-    return SearchEngine(SearchConfig(**online["search"]),
-                        evaluator=evaluator or resolve_evaluator(online["evaluation"]))
+    search_config = SearchConfig(**online["search"])
+    if evaluator is None:
+        evaluator = resolve_evaluator(online["evaluation"])
+    return SearchEngine(search_config, evaluator=evaluator)
 
 
 def game_seed(row, kind, index):
